@@ -260,11 +260,15 @@ function updateMilestones(layer) {
 
 function updateAchievements(layer) {
 	for (id in layers[layer].achievements) {
-		if (isPlainObject(layers[layer].achievements[id]) && !(hasAchievement(layer, id)) && layers[layer].achievements[id].done()) {
+		if (!isPlainObject(layers[layer].achievements[id])) continue;
+		let done = layers[layer].achievements[id].done();
+		if (isPlainObject(layers[layer].achievements[id]) && !(hasAchievement(layer, id)) && done) {
 			player[layer].achievements.push(id)
+			let notif = !player.a.bestAchs.includes(Number(id));
 			if (layers[layer].achievements[id].onComplete) layers[layer].achievements[id].onComplete()
-			if (tmp[layer].achievementPopups || tmp[layer].achievementPopups === undefined) doPopup("achievement", tmp[layer].achievements[id].name, "Achievement Gotten!", 3, tmp[layer].color);
+			if (notif) doPopup("achievement", tmp[layer].achievements[id].name, "Achievement Gotten!", 3, tmp[layer].color);
 		}
+		if (!done && hasAchievement(layer, id)) player[layer].achievements.splice(player[layer].achievements.indexOf(id), 1);
 	}
 }
 

@@ -1,10 +1,10 @@
 
-function exponentialFormat(num, precision, mantissa = true) {
-    let e = num.log10().floor()
+function exponentialFormat(num, precision, mantissa = true, small=false) {
+    let e = num.log10().floor();
     let m = num.div(Decimal.pow(10, e))
     if (m.toStringWithDecimalPlaces(precision) == 10) {
         m = decimalOne
-        e = e.add(1)
+        e = e.add(small?-1:1)
     }
     e = (e.gte(1e9) ? format(e, 3) : (e.gte(10000) ? commaFormat(e, 0) : e.toStringWithDecimalPlaces(0)))
     if (mantissa)
@@ -26,6 +26,7 @@ function commaFormat(num, precision) {
 function regularFormat(num, precision) {
     if (num === null || num === undefined) return "NaN"
     if (num.mag < 0.0001) return (0).toFixed(precision)
+    if (num.mag < 0.001) precision = Math.max(precision, 6)
     if (num.mag < 0.1 && precision !==0) precision = Math.max(precision, 4)
     return num.toStringWithDecimalPlaces(precision)
 }
@@ -40,7 +41,7 @@ function sumValues(x) {
     return x.reduce((a, b) => Decimal.add(a, b))
 }
 
-function format(decimal, precision = 2, small) {
+function format(decimal, precision = 3, small = true) {
     small = small || modInfo.allowSmall
     decimal = new Decimal(decimal)
     if (isNaN(decimal.sign) || isNaN(decimal.layer) || isNaN(decimal.mag)) {
@@ -64,10 +65,10 @@ function format(decimal, precision = 2, small) {
     decimal = invertOOM(decimal)
     let val = ""
     if (decimal.lt("1e1000")){
-        val = exponentialFormat(decimal, precision)
+        val = exponentialFormat(decimal, precision, true, true)
         return val.replace(/([^(?:e|F)]*)$/, '-$1')
     }
-    else   
+    else
         return format(decimal, precision) + "⁻¹"
 
 }
@@ -97,8 +98,8 @@ function toPlaces(x, precision, maxAccepted) {
 }
 
 // Will also display very small numbers
-function formatSmall(x, precision=2) { 
-    return format(x, precision, true)    
+function formatSmall(x, precision=2) {
+    return format(x, precision, true)
 }
 
 function invertOOM(x){

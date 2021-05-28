@@ -1,48 +1,45 @@
 let modInfo = {
-	name: "The ??? Tree",
-	id: "mymod",
-	author: "nobody",
-	pointsName: "points",
+	name: "Sinusoidle(?)",
+	id: "h",
+	author: "Sundex, Jacorb, and Unpingabot",
+	pointsName: "position",
 	discordName: "",
 	discordLink: "",
-	initialStartPoints: new Decimal (10), // Used for hard resets and new players
-	
+	initialStartPoints: new Decimal (1), // Used for hard resets and new players
+	allowSmall: true,
 	offlineLimit: 1,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.0",
-	name: "Literally nothing",
+	num: "0.1",
+	name: "Controversial Creations",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.0</h3><br>
-		- Added things.<br>
-		- Added stuff.`
+	<h3>v0.1</h3><br>
+		- 1st row of achievements.<br>
+		- 7 Upgrades.`
 
-let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
+let winText = `Congratulations! We hope you enjoyed this insanity. Consider giving feedback for the next update because we still have a long ways to go!`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
 var doNotCallTheseFunctionsEveryTick = ["blowUpEverything"]
 
-function getStartPoints(){
+function getStartPoints() {
     return new Decimal(modInfo.initialStartPoints)
 }
-
+//hi hemlo
 // Determines if it should show points/sec
 function canGenPoints(){
 	return true
 }
-
-// Calculate points/sec!
+// Calculate # of points!
 function getPointGen() {
-	if(!canGenPoints())
-		return new Decimal(0)
-
-	let gain = new Decimal(1)
-	return gain
+	let gain = D(1).add(D(player.b.resetTime).times(tmp.b.buyables[11].effect).pow(tmp.b.buyables[12].effect));
+	gain = gain.times(D.sub(1, tmp.b.buyables[31].effect1));
+	return gain.pow(-1);
 }
 
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
@@ -55,7 +52,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("e280000000"))
+	return player.b.points.gte(8)
 }
 
 

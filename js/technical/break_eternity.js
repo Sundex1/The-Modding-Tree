@@ -2737,6 +2737,11 @@ for (var i = 0; i < 10; ++i)
   Decimal.dNumberMax = FC(1, 0, Number.MAX_VALUE);
   Decimal.dNumberMin = FC(1, 0, Number.MIN_VALUE);
   
-  return Decimal;
+  return new Proxy(Decimal, {
+    // target = Foo
+    apply(target, thisArg, argumentsList) {
+        return new target(...argumentsList);
+    }
+});
 
 }));
