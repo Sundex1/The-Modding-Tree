@@ -10,11 +10,14 @@ addLayer("b", {
     }},
     color: "#4BDC13",
     requires: new Decimal(.1), // Can be a function that takes requirement increases into account
+    effectDescription() {
+        return "which are giving a " + format(player.b.points.pow(tmp.p.effect)) + "x boost to gamespeed."
+    },
     resource: "base points", // Name of prestige currency
     baseResource: "position", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "custom", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    base: .1,
+    base() { return D.sub(1, D.div(.9, tmp.c.challenges[11].effect)) },
     exponent: 1, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
@@ -23,6 +26,7 @@ addLayer("b", {
     gainExp() { // Calculate the exponent on main currency from bonuses
         return new Decimal(1)
     },
+    resetResetTime() { return !hasAchievement("a1", 11) },
     row: 0, // Row the layer is in on the tree (0 is the first row)
     hotkeys: [
         {key: "b", description: "B: Reset for base points", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
@@ -35,7 +39,7 @@ addLayer("b", {
         return "Req "+format(tmp[this.layer].getNextAt)+" position";
     },
     getNextAt() {
-        return Decimal.pow(0.1, player.b.points);
+        return Decimal.pow(tmp.b.base, player.b.points);
     },
     canReset() {
         return (player.points.lte(tmp[this.layer].getNextAt));
@@ -53,16 +57,16 @@ addLayer("b", {
         "respec-button",
         ["row", [["column", [["buyable", 11], ["clickable", 11]]], ["column", [["buyable", 12], ["clickable", 12]]], ["column", [["buyable", 13], ["clickable", 13]]]]],
         ["row", [["column", [["buyable", 21], ["clickable", 21]]], ["column", [["buyable", 22], ["clickable", 22]]], ["column", [["buyable", 23], ["clickable", 23]]]]],
-        ["row", [["column", [["buyable", 31], ["clickable", 31]]]]],
+        ["row", [["column", [["buyable", 31], ["clickable", 31]]], ["column", [["buyable", 32], ["clickable", 32]]]]],
     ],
     buyables: {
-        respec() { resetBuyables(this.layer); player.b.totalBuyables = {11: D(0), 12: D(0), 13: D(0)}}, 
+        respec() { resetBuyables(this.layer); player.b.totalBuyables = {11: D(0), 12: D(0), 13: D(0), 21: D(0), 22: D(0), 23: D(0), 31: D(0), 32: D(0)}}, 
         showRespec() { return hasAchievement("a", 11) },    
         respecText: "Respec buyables",
         rows: 3,
         cols: 3,
         11: {
-            title() { return "Anti-Velocity ["+formatWhole(player[this.layer].buyables[this.id])+"]" },
+            title() { return "Anti-Velocity<br>["+formatWhole(player[this.layer].buyables[this.id])+(tmp.b.buyables[this.id].extraLevels.gt(0)?(" + "+formatWhole(tmp.b.buyables[this.id].extraLevels)):"")+"]" },
             unlocked() { return hasAchievement("a", 11) },
             display() { 
                 return "Divides the position<br><br>Req: "+format(tmp[this.layer].buyables[this.id].cost)+" Base Points<br><br>Currently: /"+format(tmp[this.layer].buyables[this.id].effect)
@@ -74,15 +78,20 @@ addLayer("b", {
                 if (hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1)); 
                 return cost;
             }, 
-            effect(x) { return x.times(tmp.b.buyables[13] ? tmp.b.buyables[13].effect : 1).div(250).plus(1).times(tmp.b.buyables[31] ? tmp.b.buyables[31].effect2 : 1)}, 
-            canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id]},
+            effect(x) { return x.plus(tmp.b.buyables[this.id].extraLevels).times(tmp.b.buyables[13] ? tmp.b.buyables[13].effect : 1).div(250).plus(1).times(tmp.b.buyables[31] ? tmp.b.buyables[31].effect2 : 1)}, 
+            canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] && (!hasAchievement("a", 22)||!player.b.toggles[31])},
             buy() {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
             },
+            extraLevels() {
+                let e = D(0);
+                if (hasAchievement("a", 23)) e = e.plus(player[this.layer].buyables[31])
+                return e;
+            },
         },
         12: {
-            title() { return "Anti-Acceleration ["+formatWhole(player[this.layer].buyables[this.id])+"]" },
+            title() { return "Anti-Acceleration<br>["+formatWhole(player[this.layer].buyables[this.id])+(tmp.b.buyables[this.id].extraLevels.gt(0)?(" + "+formatWhole(tmp.b.buyables[this.id].extraLevels)):"")+"]" },
             unlocked() { return hasAchievement("a", 12) },
             display() {
                 return "Exponentiates the position<br><br>Req: "+format(tmp[this.layer].buyables[this.id].cost)+" Base Points<br><br>Currently: ^"+format(tmp[this.layer].buyables[this.id].effect)
@@ -94,15 +103,20 @@ addLayer("b", {
                 if (hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
                 return cost;
             }, 
-            effect(x) {return x.plus(1).log(10).div(2).plus(1)},
-            canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id]},
+            effect(x) {return x.plus(tmp.b.buyables[this.id].extraLevels).plus(1).log(10).div(2).plus(1)},
+            canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] && (!hasAchievement("a", 22)||!player.b.toggles[31])},
             buy() {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
             },
+            extraLevels() {
+                let e = D(0);
+                if (hasAchievement("a", 23)) e = e.plus(player[this.layer].buyables[31])
+                return e;
+            },
         },
         13: {
-            title() { return "Angles ["+formatWhole(player[this.layer].buyables[this.id])+"]" },
+            title() { return "Angles<br>["+formatWhole(player[this.layer].buyables[this.id])+(tmp.b.buyables[this.id].extraLevels.gt(0)?(" + "+formatWhole(tmp.b.buyables[this.id].extraLevels)):"")+"]" },
             unlocked() { return hasAchievement("a", 13) },
             display() {
                 return "Multiplies the effective level of Anti-Velocity<br><br>Req: "+format(tmp[this.layer].buyables[this.id].cost)+" Base Points<br><br>Currently: "+format(tmp[this.layer].buyables[this.id].effect)+"x";
@@ -114,26 +128,31 @@ addLayer("b", {
                 if (hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
                 return cost;
             }, 
-            effect(x) { return x.plus(1).log10().div(4).plus(1).times(tmp.b.buyables[31] ? tmp.b.buyables[31].effect2 : 1)},
-            canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id]},
+            effect(x) { return x.plus(tmp.b.buyables[this.id].extraLevels).plus(1).log10().div(4).plus(1).times(tmp.b.buyables[31] ? tmp.b.buyables[31].effect2 : 1)},
+            canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] && (!hasAchievement("a", 22)||!player.b.toggles[31])},
             buy() {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
             },
+            extraLevels() {
+                let e = D(0);
+                if (hasAchievement("a", 23)) e = e.plus(player[this.layer].buyables[31])
+                return e;
+            },
         },
         21: {
-            title() { return "Desynergizer V [" + formatWhole(player[this.layer].buyables[this.id]) + "]" },
+            title() { return "Desynergizer V<br>[" + formatWhole(player[this.layer].buyables[this.id])+(tmp.b.buyables[this.id].extraLevels.gt(0)?(" + "+formatWhole(tmp.b.buyables[this.id].extraLevels)):"") + "]" },
             unlocked() { return hasAchievement("a", 15) },
             display() {
                 return "Reduces the cost of Anti-Velocity<br><br>Req: "+format(tmp[this.layer].buyables[this.id].cost)+" Base Points<br><br>Currently: -"+format(tmp[this.layer].buyables[this.id].effect);
             },
             cost(x) {
-                let total = x.plus(player[this.layer].buyables[22].plus(player[this.layer].buyables[23]));
+                let total = x.plus(hasAchievement("a1", 12)?0:(player[this.layer].buyables[22].plus(player[this.layer].buyables[23])));
                 let cost = D.pow(1.25, total);
-                if (hasAchievement("a", 18)) cost = cost.div(player.points.log10().times(-1).plus(1));
+                if (hasAchievement("a", 18)) cost = cost.div(player.points.log10().times(hasAchievement("a1", 14)?player.c1.points.plus(1):1).times(-1).plus(1));
                 return cost;
             },  
-            effect(x) { return x },
+            effect(x) { return x.plus(tmp[this.layer].buyables[this.id].extraLevels) },
             costScalingReduction() {
                 if (!hasAchievement("a", 16)) return D(1);
                 else return D.div(1, player[this.layer].buyables[21].plus(1));
@@ -143,20 +162,25 @@ addLayer("b", {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
             },
+            extraLevels() {
+                let e = D(0);
+                if (hasAchievement("a", 24)) e = e.plus(player[this.layer].buyables[32])
+                return e;
+            },
         },
         22: {
-            title() { return "Desynergizer AC [" + formatWhole(player[this.layer].buyables[this.id]) + "]" },
+            title() { return "Desynergizer AC<br>[" + formatWhole(player[this.layer].buyables[this.id])+(tmp.b.buyables[this.id].extraLevels.gt(0)?(" + "+formatWhole(tmp.b.buyables[this.id].extraLevels)):"") + "]" },
             unlocked() { return hasAchievement("a", 15) },
             display() {
                 return "Reduces the cost of Anti-Acceleration<br><br>Req: " + format(tmp[this.layer].buyables[this.id].cost) + " Base Points<br><br>Currently: -" + format(tmp[this.layer].buyables[this.id].effect);
             },
             cost(x) {
-                let total = x.plus(player[this.layer].buyables[21].plus(player[this.layer].buyables[23]));
+                let total = x.plus(hasAchievement("a1", 12)?0:player[this.layer].buyables[21].plus(player[this.layer].buyables[23]));
                 let cost = D.pow(1.25, total);
-                if (hasAchievement("a", 18)) cost = cost.div(player.points.log10().times(-1).plus(1));
+                if (hasAchievement("a", 18)) cost = cost.div(player.points.log10().times(hasAchievement("a1", 14)?player.c1.points.plus(1):1).times(-1).plus(1));
                 return cost;
             },
-            effect(x) { return x },
+            effect(x) { return x.plus(tmp[this.layer].buyables[this.id].extraLevels) },
             costScalingReduction() {
                 if (!hasAchievement("a", 16)) return D(1);
                 else return D.div(1, player[this.layer].buyables[22].plus(1));
@@ -166,20 +190,25 @@ addLayer("b", {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
             },
+            extraLevels() {
+                let e = D(0);
+                if (hasAchievement("a", 24)) e = e.plus(player[this.layer].buyables[32])
+                return e;
+            },
         },
         23: {
-            title() { return "Desynergizer AN [" + formatWhole(player[this.layer].buyables[this.id]) + "]" },
+            title() { return "Desynergizer AN<br>[" + formatWhole(player[this.layer].buyables[this.id])+(tmp.b.buyables[this.id].extraLevels.gt(0)?(" + "+formatWhole(tmp.b.buyables[this.id].extraLevels)):"") + "]" },
             unlocked() { return hasAchievement("a", 15) },
             display() {
                 return "Reduces the cost of Angles<br><br>Req: " + format(tmp[this.layer].buyables[this.id].cost) + " Base Points<br><br>Currently: -" + format(tmp[this.layer].buyables[this.id].effect);
             },
             cost(x) {
-                let total = x.plus(player[this.layer].buyables[22].plus(player[this.layer].buyables[21]));
+                let total = x.plus(hasAchievement("a1", 12)?0:player[this.layer].buyables[22].plus(player[this.layer].buyables[21]));
                 let cost = D.pow(1.25, total);
-                if (hasAchievement("a", 18)) cost = cost.div(player.points.log10().times(-1).plus(1));
+                if (hasAchievement("a", 18)) cost = cost.div(player.points.log10().times(hasAchievement("a1", 14)?player.c1.points.plus(1):1).times(-1).plus(1));
                 return cost;
             },
-            effect(x) { return x },
+            effect(x) { return x.plus(tmp[this.layer].buyables[this.id].extraLevels) },
             costScalingReduction() {
                 if (!hasAchievement("a", 16)) return D(1);
                 else return D.div(1, player[this.layer].buyables[23].plus(1));
@@ -189,30 +218,57 @@ addLayer("b", {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
             },
+            extraLevels() {
+                let e = D(0);
+                if (hasAchievement("a", 24)) e = e.plus(player[this.layer].buyables[32])
+                return e;
+            },
         },
         31: {
-            title() { return "Direct Attack [" + formatWhole(player[this.layer].buyables[this.id]) + "]" },
+            title() { return "Direct Attack<br>[" + formatWhole(player[this.layer].buyables[this.id]) + "]" },
             unlocked() { return hasAchievement("a", 17) },
             display() {
                 return "Subtracts a percentage of your current position from your position.<br>Also multiplies the effect of the first & third buyables<br><br>Req: " + format(tmp[this.layer].buyables[this.id].cost) + " Base Points <br><br>Currently: -" + format(tmp[this.layer].buyables[this.id].effect1.times(100))+"%, "+format(tmp[this.layer].buyables[this.id].effect2)+"x";
             },
             cost(x) {
-                return D.pow(1.5, x).times(2);
+                let total = x.times(player[this.layer].buyables[32].max(1))
+                return D.pow(1.5, total).times(2);
             },
             effect1(x=player[this.layer].buyables[this.id]) {
                 return D.sub(1, D.div(1, x.plus(1).log2().plus(1)));
             },
             effect2(x=player[this.layer].buyables[this.id]) {
-                return x.plus(1).log2().plus(1);
+                let power = D(1);
+                if (hasAchievement("a", 22)) power = power.times(player[this.layer].buyables[21].plus(player[this.layer].buyables[22]).plus(player[this.layer].buyables[23]).max(1).log(100).plus(1));
+                return x.plus(1).log2().times(power).plus(1);
             },
             canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id]},
             buy() {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
             },
-        }
+        },
+        32: {
+            title() { return "Shrink Factor<br>[" + formatWhole(player[this.layer].buyables[this.id]) + "]" },
+            unlocked() { return hasAchievement("a1", 13) },
+            display() {
+                return "Divides your position based on your position<br><br>Req: " + format(tmp[this.layer].buyables[this.id].cost) + " Base Points <br><br>Currently: /" + format(tmp[this.layer].buyables[this.id].effect);
+            },
+            cost(x) {
+                let total = x.times(player[this.layer].buyables[31].max(1))
+                return D.pow(1.5, total).times(hasAchievement("a", 24)?4.9:24.5);
+            },
+            effect(x = player[this.layer].buyables[this.id]) {
+                return player.points.log10().times(-1).plus(1).pow(x.div(3));
+            },
+            canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] },
+            buy() {
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
+                player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
+            },
+        },
     },
-    toggleAmount() { return hasAchievement("a", 18)?2:1 },
+    toggleAmount() { return hasAchievement("a", 25)?3:(hasAchievement("a", 18)?2:1) },
     clickables: {
         rows: 3,
         cols: 3,
@@ -290,6 +346,17 @@ addLayer("b", {
                 player.b.toggles[31] = !player.b.toggles[31]
                 if (player.b.toggles[31]) player.b.buyables[31] = player.b.totalBuyables[31]
                 else player.b.buyables[31] = D(0)
+            },
+            style: {"height": "50px", "width": "150px", "background-color": "darkgreen"},
+        }, 
+        32: {
+            display() { return "Toggles Shrink Factor <br> but changes costs of other buyables<br><br>"+(player.b.toggles[32]?"ON":"OFF") },
+            unlocked() { return hasAchievement("a1", 13) },
+            canClick() { return hasAchievement("a1", 13) && Object.keys(player.b.toggles).filter(x => !player.b.toggles[x] || x==32).length<=tmp.b.toggleAmount},
+            onClick() { 
+                player.b.toggles[32] = !player.b.toggles[32]
+                if (player.b.toggles[32]) player.b.buyables[32] = player.b.totalBuyables[32]
+                else player.b.buyables[32] = D(0)
             },
             style: {"height": "50px", "width": "150px", "background-color": "darkgreen"},
         }, 

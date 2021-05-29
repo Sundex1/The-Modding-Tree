@@ -1,5 +1,5 @@
 let modInfo = {
-	name: "Sinusoidle(?)",
+	name: "The Puzzle Tree",
 	id: "h",
 	author: "Sundex, Jacorb, and Unpingabot",
 	pointsName: "position",
@@ -12,8 +12,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.1",
-	name: "Controversial Creations",
+	num: "0.2",
+	name: "Complexity... need I say more",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
@@ -37,8 +37,9 @@ function canGenPoints(){
 }
 // Calculate # of points!
 function getPointGen() {
-	let gain = D(1).add(D(player.b.resetTime).times(tmp.b.buyables[11].effect).pow(tmp.b.buyables[12].effect));
+	let gain = D(1).add(D(player.b.resetTime).times(player.b.points).pow(tmp.p.effect).times(tmp.b.buyables[11].effect).pow(tmp.b.buyables[12].effect));
 	gain = gain.times(D.sub(1, tmp.b.buyables[31].effect1));
+	gain = gain.times(tmp.b.buyables[32].effect);
 	return gain.pow(-1);
 }
 
@@ -52,7 +53,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.b.points.gte(8)
+	return player.p.points.gte(3)
 }
 
 

@@ -21,7 +21,15 @@ addNode("blank", {
 addLayer("tree-tab", {
     tabFormat: {
         "Main": {
-            embedLayer: "b"
-        }
-    }
+            embedLayer() { return player.c.activeChallenge?("c"+(player.c.activeChallenge-10)):"b"},
+        },
+        "Prestige": {
+            embedLayer: "p",
+            unlocked() { return player.b.points.gte(9) || player.p.points.gte(1) }
+        },
+        "Challenges": {
+            embedLayer: "c",
+            unlocked() { return hasAchievement("a", 21) || player.c1.points.gte(1) || inChallenge("c", 11) },
+        },
+    }, 
 })

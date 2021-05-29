@@ -231,7 +231,7 @@ function doReset(layer, force=false) {
 	rowReset("side", layer)
 	prevOnReset = undefined
 
-	player[layer].resetTime = 0
+	player[layer].resetTime = (tmp[layer].resetResetTime===undefined)?0:(tmp[layer].resetResetTime?0:player[layer].resetTime)
 
 	updateTemp()
 	updateTemp()
