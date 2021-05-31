@@ -67,7 +67,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return false//player.p.points.gte(3)
+	return player.p.points.gte(5)
 }
 
 
