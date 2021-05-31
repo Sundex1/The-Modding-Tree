@@ -12,14 +12,28 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.2",
-	name: "Complexity... need I say more",
+	num: "0.3",
+	name: "Content amount has been (softcapped)",
 }
 
-let changelog = `<h1>Changelog:</h1><br>
+let changelog = `<h1>Changelog:</h1><br><br>
 	<h3>v0.1</h3><br>
 		- 1st row of achievements.<br>
-		- 7 Upgrades.`
+		- 7 Upgrades.<br><br>
+	<h3>v0.2</h3><br>
+		-Changed Achievements to Goals.<br>
+		-Added Overcharge<br>
+		-10 New Goals (5 for Base Game, 5 for Overcharge)<br>
+		-Added Upgrade 8: Shrink Factor<br>
+		-Added Prestige Points<br><br>
+	<h3>v0.3</h3><br>
+		-Made it easier to know which togglables are "ON" or "OFF"<br>
+		-Added guides for Goals and Challenges (found in their respective tabs)<br>
+		-Fixed challenge goals not notifying upon first completion<br>
+		-Shifted down challenge goals so their description can actually be seen<br>
+		-Minor typo fixes<br>
+		-Fixed a softlock issue where toggling Anti-Velocity off then respeccing wouldn't reset togglables<br>
+		-Added 6 Goals (3 for Base Game, 3 for Overcharge)<br>`
 
 let winText = `Congratulations! We hope you enjoyed this insanity. Consider giving feedback for the next update because we still have a long ways to go!`
 
@@ -53,7 +67,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.p.points.gte(3)
+	return false//player.p.points.gte(3)
 }
 
 

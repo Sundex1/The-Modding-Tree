@@ -33,10 +33,14 @@ addLayer("b", {
     ],
     layerShown(){return true},
     getResetGain() {
+        if (hasAchievement("a1", 16)) return player.points.log(tmp.b.base).floor().sub(player.b.points.sub(1)).max(0);
         return decimalOne;
     },
     prestigeButtonText() {
-        return "Req "+format(tmp[this.layer].getNextAt)+" position";
+        let txt = "Req "+format(tmp[this.layer].getNextAt)+" position";
+        let gain = tmp[this.layer].getResetGain;
+        if (gain.gt(1)) txt += "<br><br>+"+formatWhole(gain)+" "+tmp[this.layer].resource
+        return txt;
     },
     getNextAt() {
         return Decimal.pow(tmp.b.base, player.b.points);
@@ -60,7 +64,11 @@ addLayer("b", {
         ["row", [["column", [["buyable", 31], ["clickable", 31]]], ["column", [["buyable", 32], ["clickable", 32]]]]],
     ],
     buyables: {
-        respec() { resetBuyables(this.layer); player.b.totalBuyables = {11: D(0), 12: D(0), 13: D(0), 21: D(0), 22: D(0), 23: D(0), 31: D(0), 32: D(0)}}, 
+        respec() {
+            resetBuyables(this.layer);
+            player.b.totalBuyables = { 11: D(0), 12: D(0), 13: D(0), 21: D(0), 22: D(0), 23: D(0), 31: D(0), 32: D(0) };
+            player.b.toggles = {11: true, 12: true, 13: true, 21: true, 22: true, 23: true, 31: true, 32: true, 33: true};
+        }, //Bug: respeccing while togglables are off could softlock your game
         showRespec() { return hasAchievement("a", 11) },    
         respecText: "Respec buyables",
         rows: 3,
@@ -150,6 +158,7 @@ addLayer("b", {
                 let total = x.plus(hasAchievement("a1", 12)?0:(player[this.layer].buyables[22].plus(player[this.layer].buyables[23])));
                 let cost = D.pow(1.25, total);
                 if (hasAchievement("a", 18)) cost = cost.div(player.points.log10().times(hasAchievement("a1", 14)?player.c1.points.plus(1):1).times(-1).plus(1));
+                if (hasAchievement("a1", 18)) cost = cost.div(player.b.buyables[11].plus(1).log10().plus(1));
                 return cost;
             },  
             effect(x) { return x.plus(tmp[this.layer].buyables[this.id].extraLevels) },
@@ -165,6 +174,7 @@ addLayer("b", {
             extraLevels() {
                 let e = D(0);
                 if (hasAchievement("a", 24)) e = e.plus(player[this.layer].buyables[32])
+                if (hasAchievement("a1", 17)) e = e.plus(player.c1.buyables[21])
                 return e;
             },
         },
@@ -178,6 +188,7 @@ addLayer("b", {
                 let total = x.plus(hasAchievement("a1", 12)?0:player[this.layer].buyables[21].plus(player[this.layer].buyables[23]));
                 let cost = D.pow(1.25, total);
                 if (hasAchievement("a", 18)) cost = cost.div(player.points.log10().times(hasAchievement("a1", 14)?player.c1.points.plus(1):1).times(-1).plus(1));
+                if (hasAchievement("a1", 18)) cost = cost.div(player.b.buyables[12].plus(1).log10().plus(1));
                 return cost;
             },
             effect(x) { return x.plus(tmp[this.layer].buyables[this.id].extraLevels) },
@@ -193,6 +204,7 @@ addLayer("b", {
             extraLevels() {
                 let e = D(0);
                 if (hasAchievement("a", 24)) e = e.plus(player[this.layer].buyables[32])
+                if (hasAchievement("a1", 17)) e = e.plus(player.c1.buyables[22])
                 return e;
             },
         },
@@ -206,6 +218,7 @@ addLayer("b", {
                 let total = x.plus(hasAchievement("a1", 12)?0:player[this.layer].buyables[22].plus(player[this.layer].buyables[21]));
                 let cost = D.pow(1.25, total);
                 if (hasAchievement("a", 18)) cost = cost.div(player.points.log10().times(hasAchievement("a1", 14)?player.c1.points.plus(1):1).times(-1).plus(1));
+                if (hasAchievement("a1", 18)) cost = cost.div(player.b.buyables[13].plus(1).log10().plus(1));
                 return cost;
             },
             effect(x) { return x.plus(tmp[this.layer].buyables[this.id].extraLevels) },
@@ -221,6 +234,7 @@ addLayer("b", {
             extraLevels() {
                 let e = D(0);
                 if (hasAchievement("a", 24)) e = e.plus(player[this.layer].buyables[32])
+                if (hasAchievement("a1", 17)) e = e.plus(player.c1.buyables[23])
                 return e;
             },
         },
@@ -269,7 +283,7 @@ addLayer("b", {
         },
     },
     toggleAmount() { return hasAchievement("a", 25)?3:(hasAchievement("a", 18)?2:1) },
-    clickables: {
+    clickables: { //clickables need to have some sort of a color indicator to which ones are on and off.
         rows: 3,
         cols: 3,
         11: {
@@ -281,7 +295,10 @@ addLayer("b", {
                 if (player.b.toggles[11]) player.b.buyables[11] = player.b.totalBuyables[11]
                 else player.b.buyables[11] = D(0);
             },
-            style: {"height": "50px", "width": "150px", "background-color": "darkgreen"},
+            style() {
+                if (player.b.toggles[11]) return { "height": "50px", "width": "150px", "background-color": "#4BDC13" };
+                if (!player.b.toggles[11]) return { "height": "50px", "width": "150px", "background-color": "green" };
+            },
         }, 
         12: {
             display() { return "Toggles Anti-Acceleration but changes costs of other buyables<br><br>"+(player.b.toggles[12]?"ON":"OFF") },
@@ -292,7 +309,10 @@ addLayer("b", {
                 if (player.b.toggles[12]) player.b.buyables[12] = player.b.totalBuyables[12]
                 else player.b.buyables[12] = D(0) 
             },
-            style: {"height": "50px", "width": "150px", "background-color": "darkgreen"},
+            style() {
+                if (player.b.toggles[12]) return { "height": "50px", "width": "150px", "background-color": "#4BDC13" };
+                if (!player.b.toggles[12]) return { "height": "50px", "width": "150px", "background-color": "green" };
+            },
         }, 
         13: {
             display() { return "Toggles Angles <br> but changes costs of other buyables<br><br>"+(player.b.toggles[13]?"ON":"OFF") },
@@ -303,7 +323,10 @@ addLayer("b", {
                 if (player.b.toggles[13]) player.b.buyables[13] = player.b.totalBuyables[13]
                 else player.b.buyables[13] = D(0)
             },
-            style: {"height": "50px", "width": "150px", "background-color": "darkgreen"},
+            style() {
+                if (player.b.toggles[13]) return { "height": "50px", "width": "150px", "background-color": "#4BDC13" };
+                if (!player.b.toggles[13]) return { "height": "50px", "width": "150px", "background-color": "green" };
+            },
         }, 
         21: {
             display() { return "Toggles Desynergizer V <br> but changes costs of other buyables<br><br>"+(player.b.toggles[21]?"ON":"OFF") },
@@ -314,7 +337,10 @@ addLayer("b", {
                 if (player.b.toggles[21]) player.b.buyables[21] = player.b.totalBuyables[21]
                 else player.b.buyables[21] = D(0)
             },
-            style: {"height": "50px", "width": "150px", "background-color": "darkgreen"},
+            style() {
+                if (player.b.toggles[21]) return { "height": "50px", "width": "150px", "background-color": "#4BDC13" };
+                if (!player.b.toggles[21]) return { "height": "50px", "width": "150px", "background-color": "green" };
+            },
         }, 
         22: {
             display() { return "Toggles Desynergizer AC <br> but changes costs of other buyables<br><br>"+(player.b.toggles[22]?"ON":"OFF") },
@@ -325,7 +351,10 @@ addLayer("b", {
                 if (player.b.toggles[22]) player.b.buyables[22] = player.b.totalBuyables[22]
                 else player.b.buyables[22] = D(0)
             },
-            style: {"height": "50px", "width": "150px", "background-color": "darkgreen"},
+            style() {
+                if (player.b.toggles[22]) return { "height": "50px", "width": "150px", "background-color": "#4BDC13" };
+                if (!player.b.toggles[22]) return { "height": "50px", "width": "150px", "background-color": "green" };
+            },
         }, 
         23: {
             display() { return "Toggles Desynergizer AN <br> but changes costs of other buyables<br><br>"+(player.b.toggles[23]?"ON":"OFF") },
@@ -336,7 +365,10 @@ addLayer("b", {
                 if (player.b.toggles[23]) player.b.buyables[23] = player.b.totalBuyables[23]
                 else player.b.buyables[23] = D(0)
             },
-            style: {"height": "50px", "width": "150px", "background-color": "darkgreen"},
+            style() {
+                if (player.b.toggles[23]) return { "height": "50px", "width": "150px", "background-color": "#4BDC13" };
+                if (!player.b.toggles[23]) return { "height": "50px", "width": "150px", "background-color": "green" };
+            },
         }, 
         31: {
             display() { return "Toggles Direct Attack <br> but changes costs of other buyables<br><br>"+(player.b.toggles[31]?"ON":"OFF") },
@@ -347,7 +379,10 @@ addLayer("b", {
                 if (player.b.toggles[31]) player.b.buyables[31] = player.b.totalBuyables[31]
                 else player.b.buyables[31] = D(0)
             },
-            style: {"height": "50px", "width": "150px", "background-color": "darkgreen"},
+            style() {
+                if (player.b.toggles[31]) return { "height": "50px", "width": "150px", "background-color": "#4BDC13" };
+                if (!player.b.toggles[31]) return { "height": "50px", "width": "150px", "background-color": "green" };
+            },
         }, 
         32: {
             display() { return "Toggles Shrink Factor <br> but changes costs of other buyables<br><br>"+(player.b.toggles[32]?"ON":"OFF") },
@@ -358,7 +393,10 @@ addLayer("b", {
                 if (player.b.toggles[32]) player.b.buyables[32] = player.b.totalBuyables[32]
                 else player.b.buyables[32] = D(0)
             },
-            style: {"height": "50px", "width": "150px", "background-color": "darkgreen"},
+            style() {
+                if (player.b.toggles[32]) return { "height": "50px", "width": "150px", "background-color": "#4BDC13" };
+                if (!player.b.toggles[32]) return { "height": "50px", "width": "150px", "background-color": "green" };
+            },
         }, 
     },
 })

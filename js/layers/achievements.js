@@ -11,7 +11,20 @@ addLayer("a1", {
     color: "#FF8800",
     resource: "Overcharge Goals",
     layerShown() { return hasAchievement("a", 21) || player.c1.points.gte(1) || inChallenge("c", 11); },
-    achievements: {
+    infoboxes: {
+        achievementGuide: {
+            title: "Goal Guide^2",
+            body() {
+                return "Every challenge will have its own set of goals. The goal effects are universal, meaning that they affect all challenges (current and future) and the base game. Like base game goals, challenge goal require the previous to unlock.";
+            },
+        },
+    },
+    tabFormat: [
+        ["infobox", "achievementGuide"],
+        "blank",
+        "achievements",
+    ],
+    achievements: { //for some reason, these achievements don't notify
         11: {
             name: "Starting Anew",
             tooltip: "Have 25 of each 1st row upgrade. Reward: Base Point resets no longer reset your position",
@@ -52,6 +65,30 @@ addLayer("a1", {
             },
             onComplete() { if (!player.a1.bestAchs.includes(15)) player.a1.bestAchs.push(15) },
         },
+        16: {
+            name: "Egg's Blessing",
+            tooltip: "Reach 9 Overcharge points. Reward: You can bulk reset for base points.",
+            done() {
+                return player.c1.points.gte(9) && hasAchievement("a1", 15);
+            },
+            onComplete() { if (!player.a1.bestAchs.includes(16)) player.a1.bestAchs.push(16) },
+        },
+        17: {
+            name: "WE WANT MORE SYNERGY!!!",
+            tooltip: "Reach 30 of each Desynergizer. Reward: Bought Overcharge Desynergizers add levels to their respective Base game desynergizer and vice versa",
+            done() {
+                 return player.c1.buyables[21].gte(30) && player.c1.buyables[22].gte(30) && player.c1.buyables[23].gte(30) && hasAchievement("a1", 16);
+            },
+            onComplete() { if (!player.a1.bestAchs.includes(17)) player.a1.bestAchs.push(17) },
+        },
+        18: {
+            name: "Double Digits!",
+            tooltip: "Reach 10 Overcharge Points. Reward: Row 1 Buyables reduce the cost of their respective Desynergizer",
+            done() {
+                return player.c1.points.gte(10) && hasAchievement("a1", 17);
+            },
+            onComplete() { if (!player.a1.bestAchs.includes(18)) player.a1.bestAchs.push(18) },
+        } 
     }
 })
 addLayer("a", {
@@ -68,8 +105,9 @@ addLayer("a", {
     resource: "Goals",
     infoboxes: {
         achievementGuide: {
-            title: "IMPORTANT!",
-            body() { return "Each goal requires the goal that came before it!" },
+            title: "Goal Guide",
+            body() {
+                return "Here is where you can find the goals for the base game. Every goal has a reward, so be sure you are focusing on completing them alongside your general progression. Each achievement requires that you have the previous one, so keep that in mind when making decisions about your gameplay."},
         },
     },
     tabFormat: [
@@ -180,6 +218,30 @@ addLayer("a", {
                 return player.b.points.gte(150) && hasAchievement("a", 24);
             },
             onComplete() { if (!player.a.bestAchs.includes(25)) player.a.bestAchs.push(25) },
-        }
-    },
+        },
+        26: {
+            name: "More Threes? Have at three!",
+            tooltip: "Have 3 Prestige Points, 333 Base Points, and 3.3e-33 position. Reward: The previous achievement now multiplies the prestige point effect instead of adding to it.",
+            done() {
+                return player.p.points.gte(3) && player.points.lte(3.3e-33) && player.b.points.gte(333) && hasAchievement("a", 25);
+            },
+            onComplete() { if (!player.a.bestAchs.includes(26)) player.a.bestAchs.push(26) },
+        },
+        27: {
+            name: "You knew it was coming...",
+            tooltip: "Have 69 bought levels of each Desynergizer. Reward: Purchased Overcharge Desynergizers and Base Game Desynergizers reduce the Prestige Requirement.",
+            done() {
+                return player.b.totalBuyables[21].gte(69) && player.b.totalBuyables[22].gte(69) && player.b.totalBuyables[23].gte(69) && hasAchievement("a", 26);
+            },
+            onComplete() { if (!player.a.bestAchs.includes(27)) player.a.bestAchs.push(27) },
+        },
+        28: {
+            name: "I refuse.",
+            tooltip: "Have 4 Prestige Points. Reward: Reduces the base of the prestige requirement by 1.",
+            done() {
+                return player.p.points.gte(4) && hasAchievement("a", 27);
+            },
+            onComplete() { if (!player.a.bestAchs.includes(28)) player.a.bestAchs.push(28) },
+        },
+    }
 })

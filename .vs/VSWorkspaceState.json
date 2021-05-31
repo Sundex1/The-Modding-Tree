@@ -3,11 +3,10 @@
     "",
     "\\docs",
     "\\js",
-    "\\js\\Demo",
     "\\js\\layers",
     "\\js\\technical",
     "\\js\\utils"
   ],
-  "SelectedNode": "\\js\\utils\\options.js",
+  "SelectedNode": "\\js\\technical\\temp.js",
   "PreviewInSolutionExplorer": false
 }

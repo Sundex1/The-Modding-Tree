@@ -9,7 +9,19 @@ addLayer("c", {
             unlocked: true,
         }
     },
-    tabFormat: ["challenges"],
+    infoboxes: {
+        challengeGuide: {
+            title: "Challenge Guide",
+            body() {
+                return "Challenges are unique versions of the same game. Hindrances within challenges compound, so keep that in mind when unlocking further challenges. Do not worry about your base game when you enter a challenge, for its progress will be stored for when you exit.";
+            },
+        },
+    },
+    tabFormat: [
+        ["infobox", "challengeGuide"],
+        "blank",
+        "challenges",
+    ],
     activePosition() { return player.c.activeChallenge?player["c"+(player.c.activeChallenge-10)].position:player.points },
     challenges: {
         11: {
@@ -182,6 +194,7 @@ addLayer("c1", {
                 let total = x.plus(hasAchievement("a1", 12)?0:player[this.layer].buyables[22].plus(player[this.layer].buyables[23]));
                 let cost = D.pow(1.25, total);
                 if (hasAchievement("a", 18)) cost = cost.div(player[this.layer].position.log10().times(hasAchievement("a1", 14)?player.c1.points.plus(1):1).times(-1).plus(1));
+                if (hasAchievement("a1", 18)) cost = cost.div(player.c1.buyables[11].plus(1).log10().plus(1));
                 return cost;
             },  
             effect(x) { return x.plus(tmp[this.layer].buyables[this.id].extraLevels) },
@@ -196,6 +209,7 @@ addLayer("c1", {
             extraLevels() {
                 let e = D(0);
                 if (hasAchievement("a", 24)) e = e.plus(player[this.layer].buyables[32])
+                if (hasAchievement("a1", 17)) e = e.plus(player.b.buyables[21])
                 return e;
             },
         },
@@ -209,6 +223,7 @@ addLayer("c1", {
                 let total = x.plus(hasAchievement("a1", 12)?0:player[this.layer].buyables[21].plus(player[this.layer].buyables[23]));
                 let cost = D.pow(1.25, total);
                 if (hasAchievement("a", 18)) cost = cost.div(player[this.layer].position.log10().times(hasAchievement("a1", 14)?player.c1.points.plus(1):1).times(-1).plus(1));
+                if (hasAchievement("a1", 18)) cost = cost.div(player.c1.buyables[12].plus(1).log10().plus(1));
                 return cost;
             },
             effect(x) { return x.plus(tmp[this.layer].buyables[this.id].extraLevels) },
@@ -223,6 +238,7 @@ addLayer("c1", {
             extraLevels() {
                 let e = D(0);
                 if (hasAchievement("a", 24)) e = e.plus(player[this.layer].buyables[32])
+                if (hasAchievement("a1", 17)) e = e.plus(player.b.buyables[22])
                 return e;
             },
         },
@@ -236,6 +252,7 @@ addLayer("c1", {
                 let total = x.plus(hasAchievement("a1", 12)?0:player[this.layer].buyables[22].plus(player[this.layer].buyables[21]));
                 let cost = D.pow(1.25, total);
                 if (hasAchievement("a", 18)) cost = cost.div(player[this.layer].position.log10().times(hasAchievement("a1", 14)?player.c1.points.plus(1):1).times(-1).plus(1));
+                if (hasAchievement("a1", 18)) cost = cost.div(player.c1.buyables[13].plus(1).log10().plus(1));
                 return cost;
             },
             effect(x) { return x.plus(tmp[this.layer].buyables[this.id].extraLevels) },
@@ -250,6 +267,7 @@ addLayer("c1", {
             extraLevels() {
                 let e = D(0);
                 if (hasAchievement("a", 24)) e = e.plus(player[this.layer].buyables[32])
+                if (hasAchievement("a1", 17)) e = e.plus(player.b.buyables[23])
                 return e;
             },
         },
