@@ -29,7 +29,7 @@ addLayer("tree-tab", {
         },
         "Challenges": {
             embedLayer: "c",
-            unlocked() { return hasAchievement("a", 21) || player.c1.points.gte(1) || inChallenge("c", 11) },
+            unlocked() { return hasAchievement("a", 21) || player.c1.points.gte(1) || inChallenge("c", 11 || 12) || player.c2.points.gte(1) },
         },
     }, 
 })

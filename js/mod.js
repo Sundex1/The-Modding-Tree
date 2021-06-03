@@ -5,15 +5,15 @@ let modInfo = {
 	pointsName: "position",
 	discordName: "",
 	discordLink: "",
-	initialStartPoints: new Decimal (1), // Used for hard resets and new players
+	initialStartPoints: new D(1), // Used for hard resets and new players
 	allowSmall: true,
 	offlineLimit: 1,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.3",
-	name: "Content amount has been (softcapped)",
+	num: "0.4",
+	name: "(UNSOFTCAPPED) ALERT!",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
@@ -33,7 +33,12 @@ let changelog = `<h1>Changelog:</h1><br><br>
 		-Shifted down challenge goals so their description can actually be seen<br>
 		-Minor typo fixes<br>
 		-Fixed a softlock issue where toggling Anti-Velocity off then respeccing wouldn't reset togglables<br>
-		-Added 6 Goals (3 for Base Game, 3 for Overcharge)<br>`
+		-Added 6 Goals (3 for Base Game, 3 for Overcharge)<br><br>
+	<h3>v0.4</h3><br>
+		-1 New Challenge<br>
+		-1 New row of goals for each mode (24 goals total)<br>
+		-10 New Buyables: 9 Prestige, 1 Base Game/Challenge<br>
+		-Fixed push notifications not showing up for challenge goals (I think this time)<br>`
 
 let winText = `Congratulations! We hope you enjoyed this insanity. Consider giving feedback for the next update because we still have a long ways to go!`
 
@@ -42,7 +47,7 @@ let winText = `Congratulations! We hope you enjoyed this insanity. Consider givi
 var doNotCallTheseFunctionsEveryTick = ["blowUpEverything"]
 
 function getStartPoints() {
-    return new Decimal(modInfo.initialStartPoints)
+	return new Decimal(modInfo.initialStartPoints)
 }
 //hi hemlo
 // Determines if it should show points/sec
@@ -51,10 +56,10 @@ function canGenPoints(){
 }
 // Calculate # of points!
 function getPointGen() {
-	let gain = D(1).add(D(player.b.resetTime).times(player.b.points).pow(tmp.p.effect).times(tmp.b.buyables[11].effect).pow(tmp.b.buyables[12].effect));
+	let gain = D(1).div(tmp.p.buyables[33].effect).add(D(player.b.resetTime).times(player.b.points).pow(tmp.p.effect).times(tmp.b.buyables[11].effect).pow(tmp.b.buyables[12].effect));
 	gain = gain.times(D.sub(1, tmp.b.buyables[31].effect1));
 	gain = gain.times(tmp.b.buyables[32].effect);
-	return gain.pow(-1);
+	return D.min(gain.pow(-1), 1);
 }
 
 // You can add non-layer related variables that should to into "player" and be saved here, along with default values
@@ -67,7 +72,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.p.points.gte(5)
+	return player.p.points.gte(25)
 }
 
 
