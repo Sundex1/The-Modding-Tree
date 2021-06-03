@@ -105,7 +105,7 @@ addLayer("p", {
         },
         13: {
             title() { return "Cloned Powers<br>[" + formatWhole(player[this.layer].buyables[this.id]) + "]" },
-            unlocked() { return hasAchievement("a1", 11) },
+            unlocked() { return hasAchievement("a1", 25) },
             display() {
                 return "Multiplies power disabler's goal effects<br><br>Req: " + formatWhole(tmp[this.layer].buyables[this.id].cost) + " Prestige Points<br><br>Currently: x" + formatWhole(tmp[this.layer].buyables[this.id].effect);
             },
