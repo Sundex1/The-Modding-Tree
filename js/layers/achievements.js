@@ -11,6 +11,19 @@ addLayer("a2", {
     color: "#DD00EE",
     resource: "Honor Goals",
     layerShown() { return hasAchievement("a", 31) || player.c2.points.gte(1) || inChallenge("c", 12); },
+    infoboxes: {
+        achievementGuide: {
+            title: "Goal(?) Guide^3",
+            body() {
+                return "This layer has a lot to unpack.<br><br>1) This layer introduces a very unique feature: goal retention. There will be three buttons that show up above the challenges, and in the beginning, you will be able to toggle one of them on. The one that is toggled on will have the latest unlocked goals (amount based on Honour Points) retained. unlocking a new goal because of this feature will still give you that goal, but as it becomes part of your best goals, you may lose a reward in the process. Keep that in mind while grinding.<br><br>2) From herein, the game will become less linear and more open ended. Less of a puzzle and more of a 'problem solving' game. the game has multiple ways of reaching its version's designated endgame, and it's up to you to figure out how you will trod that path!<br><br>As such, this will be the last guide and, therefore, the end of the tutorial. Best of wishes on your journey to 0!";
+            },
+        },
+    },
+    tabFormat: [
+        ["infobox", "achievementGuide"],
+        "blank",
+        "achievements",
+    ],
     achievements: {
         11: {
             name: "The real game begins now...",
@@ -679,7 +692,7 @@ addLayer("a", {
         },
         28: {
             name: "I refuse.",
-            tooltip: "Have 4 Prestige Points. Reward: Reduces the base of the prestige requirement by 1.",
+            tooltip: "Have 4 Prestige Points. Reward: Reduces the base of the prestige requirement by 1, and prestige resets no longer reset buyable amounts.",
             done() {
                 let n = tmp.c.challenges[12].effect;
                 let n2 = tmp.p.buyables[21].effect;

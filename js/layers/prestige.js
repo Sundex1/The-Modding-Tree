@@ -64,6 +64,9 @@ addLayer("p", {
         }
         return e;
     },
+    doReset() {
+        return (hasAchievement("a", 28)) ? layerDataReset() : null;
+    },
     buyables: {
         rows: 4,
         cols: 3,

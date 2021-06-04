@@ -69,7 +69,7 @@ addLayer("c", {
             },
             canComplete() { return false },
             fullDisplay() {
-                let display = "Challenge: Achievement Rewards (aside from buyable unlocks) are disabled and the Prestige Point effect is set to 1.<br><br>";
+                let display = "Challenge: Achievement Rewards (aside from buyable unlocks) are disabled and the Prestige Point effect is set to " + formatWhole((hasAchievement("a", 32) && hasAchievement("a2", 26)) ? D.max(player.c2.points, 1) : 1) +".<br><br>";
                 display += "Points: " + formatWhole(player.c2.points) + "<br><br>";
                 display += "Reward: retain your latest unlocked Base, Overcharge, OR Honour goals based on your Honour Points <br>";
                 display += "Effect: +" + format(tmp[this.layer].challenges[this.id].effect) + " Perma-Goals towards toggled layers.<br>"
@@ -83,7 +83,7 @@ addLayer("c", {
             effect2() { if (hasAchievement("a", 32)) return player.c2.points.max(1); else 1 },
         },
     },
-    toggleAmount() { return hasAchievement("a2", 17) ? 3 : (hasAchievement("a2", 16) ? 2 : 1) },
+    toggleAmount() { return hasAchievement("a2", 17) ? 3 : (hasAchievement("a2", 15) ? 2 : 1) },
     clickables: { 
         11: {
             display() { return "Enables Honour's First effect for Base Goals." + (player.c.clickables[11] ? "ON" : "OFF") },
@@ -444,7 +444,9 @@ addLayer("c2", {
     type: "custom", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
     base() { return D(.1) },
     positionAmount() {
-        let amt = D(1).div(tmp.p.buyables[33].effect).add(D(player[this.layer].resetTime).times(tmp[this.layer].buyables[11].effect).pow(tmp[this.layer].buyables[12].effect));
+        let amt = D(1).div(tmp.p.buyables[33].effect).add(D(player[this.layer].resetTime));
+        if (hasAchievement("a", 32)) amt = amt.times(Math.min(tmp.c.challenges[12].effect2, player.c1.points)).pow((hasAchievement("a2", 26)) ? Math.min(tmp.c.challenges[12].effect2, player.p.points) : 1);
+        amt = amt.times(tmp[this.layer].buyables[11].effect).pow(tmp[this.layer].buyables[12].effect);
         amt = amt.times(D.sub(1, tmp[this.layer].buyables[31].effect1));
         amt = amt.times(tmp[this.layer].buyables[32].effect);
         return D.min(amt.pow(-1), 1);
