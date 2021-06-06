@@ -205,7 +205,7 @@ addLayer("p", {
             title() { return "Resynergizer 2.0<br>[" + formatWhole(player[this.layer].buyables[this.id]) + "]" },
             unlocked() { return hasAchievement("a", 36) },
             display() {
-                return "Raises the effective levels gained from bought desynergizers<br><br>Req: " + formatWhole(tmp[this.layer].buyables[this.id].cost) + " Prestige Points<br><br>Currently: ^" + formatWhole(tmp[this.layer].buyables[this.id].effect);
+                return "Raises the effective levels gained from bought desynergizers<br><br>Req: " + formatWhole(tmp[this.layer].buyables[this.id].cost) + " Prestige Points<br><br>Currently: ^" + format(tmp[this.layer].buyables[this.id].effect);
             },
             cost(x) {
                 let cost = Decimal.pow(x.plus(1).pow(8), x.plus(1).pow(8));
@@ -213,7 +213,7 @@ addLayer("p", {
                 return cost;
             },
             effect(x) {
-                return D(1).plus(x.times(0.01));
+                return D(1).plus(D(0.1).times(x));
             },
             canAfford() { return player.p.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) },
             buy() {
@@ -224,7 +224,7 @@ addLayer("p", {
             title() { return "Space Warper<br>[" + formatWhole(player[this.layer].buyables[this.id]) + "]" },
             unlocked() { return hasAchievement("a", 37) },
             display() {
-                return "Reduces the starting position in all modes<br><br>Req: " + formatWhole(tmp[this.layer].buyables[this.id].cost) + " Prestige Points<br><br>Currently: x" + formatWhole(tmp[this.layer].buyables[this.id].effect);
+                return "Reduces the starting position in all modes<br><br>Req: " + formatWhole(tmp[this.layer].buyables[this.id].cost) + " Prestige Points<br><br>Currently: /" + format(tmp[this.layer].buyables[this.id].effect);
             },
             cost(x) {
                 let cost = Decimal.pow(x.plus(1).pow(9), x.plus(1).pow(9));
@@ -232,7 +232,7 @@ addLayer("p", {
                 return cost;
             },
             effect(x) {
-                return D.pow(10,x.times(-1));
+                return D.pow(10, x);
             },
             canAfford() { return player.p.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) },
             buy() {

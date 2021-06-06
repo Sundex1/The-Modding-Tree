@@ -68,7 +68,7 @@ addLayer("b", {
     buyables: {
         respec() {
             resetBuyables(this.layer);
-            player.b.totalBuyables = { 11: D(0), 12: D(0), 13: D(0), 21: D(0), 22: D(0), 23: D(0), 31: D(0), 32: D(0) };
+            player.b.totalBuyables = { 11: D(0), 12: D(0), 13: D(0), 21: D(0), 22: D(0), 23: D(0), 31: D(0), 32: D(0), 33: D(0)};
             player.b.toggles = {11: true, 12: true, 13: true, 21: true, 22: true, 23: true, 31: true, 32: true, 33: true};
         },
         showRespec() { return hasAchievement("a", 11) },    
@@ -83,7 +83,7 @@ addLayer("b", {
             },
             cost(x) { 
                 let total = x.plus(player[this.layer].buyables[12].times(tmp[this.layer].buyables[22].costScalingReduction).plus(player[this.layer].buyables[13].times(tmp[this.layer].buyables[23].costScalingReduction)));
-                if (hasAchievement("a", 15)) total = total.sub(player[this.layer].buyables[21]);
+                if (hasAchievement("a", 15)) total = total.sub(tmp[this.layer].buyables[21].effect);
                 let cost = Decimal.pow(1.1, total).div(10.5);
                 if (hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1)); 
                 return cost;
@@ -109,7 +109,7 @@ addLayer("b", {
             },
             cost(x) {
                 let total = x.plus(player[this.layer].buyables[11].times(tmp[this.layer].buyables[21].costScalingReduction).plus(player[this.layer].buyables[13].times(tmp[this.layer].buyables[23].costScalingReduction)));
-                if (hasAchievement("a", 15)) total = total.sub(player[this.layer].buyables[22]);
+                if (hasAchievement("a", 15)) total = total.sub(tmp[this.layer].buyables[22].effect);
                 let cost = Decimal.pow(1.1, total).div(21);
                 if (hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
                 return cost;
@@ -135,7 +135,7 @@ addLayer("b", {
             },
             cost(x) {
                 let total = x.plus(player[this.layer].buyables[11].times(tmp[this.layer].buyables[21].costScalingReduction).plus(player[this.layer].buyables[12].times(tmp[this.layer].buyables[22].costScalingReduction)));
-                if (hasAchievement("a", 15)) total = total.sub(player[this.layer].buyables[23]);
+                if (hasAchievement("a", 15)) total = total.sub(tmp[this.layer].buyables[23].effect);
                 let cost = Decimal.pow(1.1, total).div(31.5);
                 if (hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
                 return cost;
@@ -167,7 +167,7 @@ addLayer("b", {
                 if (hasAchievement("a1", 26) && hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
                 return cost;
             },  
-            effect(x) { return x.pow(tmp.p.buyables[32].effect).plus(tmp[this.layer].buyables[this.id].extraLevels) },
+            effect(x) { return D.pow(x, tmp.p.buyables[32].effect).plus(tmp[this.layer].buyables[this.id].extraLevels) },
             costScalingReduction() {
                 if (!hasAchievement("a", 16)) return D(1);
                 else return D.div(1, player[this.layer].buyables[21].plus(1));
@@ -199,7 +199,7 @@ addLayer("b", {
                 if (hasAchievement("a1", 26) && hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
                 return cost;
             },
-            effect(x) { return x.pow(tmp.p.buyables[32].effect).plus(tmp[this.layer].buyables[this.id].extraLevels) },
+            effect(x) { return D.pow(x, tmp.p.buyables[32].effect).plus(tmp[this.layer].buyables[this.id].extraLevels) },
             costScalingReduction() {
                 if (!hasAchievement("a", 16)) return D(1);
                 else return D.div(1, player[this.layer].buyables[22].plus(1));
@@ -231,7 +231,7 @@ addLayer("b", {
                 if (hasAchievement("a1", 26) && hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
                 return cost;
             },
-            effect(x) { return x.pow(tmp.p.buyables[32].effect).plus(tmp[this.layer].buyables[this.id].extraLevels) },
+            effect(x) { return D.pow(x, tmp.p.buyables[32].effect).plus(tmp[this.layer].buyables[this.id].extraLevels) },
             costScalingReduction() {
                 if (!hasAchievement("a", 16)) return D(1);
                 else return D.div(1, player[this.layer].buyables[23].plus(1));

@@ -27,7 +27,7 @@ addLayer("a2", {
     achievements: {
         11: {
             name: "The real game begins now...",
-            tooltip: "Have 5 Honor Points. Reward:: Unlocks Point Polisher.",
+            tooltip: "Have 5 Honor Points. Reward:: Unlocks Point Polisher, and you can bulk buy Honour points.",
             done() {
                 let n = tmp.c.challenges[12].effect;
                 if (player.c2.points.gte(5)) return true;
@@ -53,7 +53,6 @@ addLayer("a2", {
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(12)) player[this.layer].bestAchs.push(12) },
         },
-        //all goals past this have not been implemented
         13: {
             name: "...to run a kingdom...",
             tooltip: "Have 100 Honour Points. Reward: Unlocks Head Start",
@@ -167,7 +166,7 @@ addLayer("a1", {
         "blank",
         "achievements",
     ],
-    achievements: { //for some reason, these achievements don't notify
+    achievements: {
         11: {
             name: "Starting Anew",
             tooltip: "Have 25 of each 1st row upgrade. Reward: Base Point resets no longer reset your position",
@@ -200,6 +199,7 @@ addLayer("a1", {
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(12)) player[this.layer].bestAchs.push(12) },
         },
+        //beyond this point, jolt start does not affect honour
         13: {
             name: "Devil's Blessing^2",
             tooltip: "Reach 6 Overcharge Points. Reward: Unlocks Shrink Factor, and every challenge that has at least 1 point reduces the base cost of Prestige Points by 2 (capped at 3 challenges)",
@@ -498,6 +498,7 @@ addLayer("a", {
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(13)) player[this.layer].bestAchs.push(13) },
         },
+        //beyond this point, jolt start does not affect honour
         14: {
             name: "But Enough Grinding, Have a Puzzle!",
             tooltip: "Reach 10 Angles. Reward: Your Achievement Number divides the requirements for the first 3 buyables, and you unlock Power Disablers",
@@ -722,7 +723,6 @@ addLayer("a", {
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(31)) player[this.layer].bestAchs.push(31) },
         },
-        //past this point, achievement rewards aren't applied
         32: {
             name: "Feels like Pentated scaling over here.",
             tooltip: "Have 11 Prestige Points, 11,111,111 Base Points, and 1.1e-111111 position. Reward: Without Honor has a 2nd effect",
@@ -789,11 +789,11 @@ addLayer("a", {
         },
         36: {
             name: "Thanks for listening, now MORE SYNERGY!!!",
-            tooltip: "Reach 300 of each Desynergizer. Reward: Unlocks Resynergizer 2.0",
+            tooltip: "Reach 275 of each Desynergizer. Reward: Unlocks Resynergizer 2.0",
             done() {
                 let n = tmp.c.challenges[12].effect;
                 let n2 = tmp.p.buyables[21].effect;
-                if (player.b.buyables[21].gte(300) && player.b.buyables[22].gte(300) && player.b.buyables[23].gte(300) && hasAchievement("a", 35)) return true;
+                if (player.b.buyables[21].gte(275) && player.b.buyables[22].gte(275) && player.b.buyables[23].gte(275) && hasAchievement("a", 35)) return true;
                 else if (!player[this.layer].bestAchs.includes(36)) return false;
                 else if (D(player[this.layer].bestAchs[21]).lt(player[this.layer].bestAchs[n2])) return true;
                 else if (!player.c.clickables[11]) return false;
@@ -821,11 +821,11 @@ addLayer("a", {
         },
         38: {
             name: "A new challenge? Don't say I didn't warn you!",
-            tooltip: "Reach 25 Prestige Points. Reward: Unlocks Direct Miss (coming in 0.5)",
+            tooltip: "Reach 200 total row 3 buyables. Reward: Unlocks Direct Miss (coming in 0.5)",
             done() {
                 let n = tmp.c.challenges[12].effect;
                 let n2 = tmp.p.buyables[21].effect;
-                if (player.p.points.gte(15) && hasAchievement("a", 37)) return true;
+                if (player.b.buyables[31].plus(player.b.buyables[32]).plus(player.b.buyables[33]).gte(200) && hasAchievement("a", 37)) return true;
                 else if (!player[this.layer].bestAchs.includes(38)) return false;
                 else if (D(player[this.layer].bestAchs[23]).lt(player[this.layer].bestAchs[n2])) return true;
                 else if (!player.c.clickables[11]) return false;

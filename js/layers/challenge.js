@@ -200,7 +200,7 @@ addLayer("c1", {
             },
             cost(x) { 
                 let total = x.plus(player[this.layer].buyables[12].times(tmp[this.layer].buyables[22].costScalingReduction).plus(player[this.layer].buyables[13].times(tmp[this.layer].buyables[23].costScalingReduction)));
-                if (hasAchievement("a", 15)) total = total.sub(player[this.layer].buyables[21]);
+                if (hasAchievement("a", 15)) total = total.sub(tmp[this.layer].buyables[21].effect);
                 let cost = Decimal.pow(1.1, total).div(10.5);
                 if (hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1)); 
                 return cost;
@@ -225,7 +225,7 @@ addLayer("c1", {
             },
             cost(x) {
                 let total = x.plus(player[this.layer].buyables[11].times(tmp[this.layer].buyables[21].costScalingReduction).plus(player[this.layer].buyables[13].times(tmp[this.layer].buyables[23].costScalingReduction)));
-                if (hasAchievement("a", 15)) total = total.sub(player[this.layer].buyables[22]);
+                if (hasAchievement("a", 15)) total = total.sub(tmp[this.layer].buyables[22].effect);
                 let cost = Decimal.pow(1.1, total).div(21);
                 if (hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
                 return cost;
@@ -250,7 +250,7 @@ addLayer("c1", {
             },
             cost(x) {
                 let total = x.plus(player[this.layer].buyables[11].times(tmp[this.layer].buyables[21].costScalingReduction).plus(player[this.layer].buyables[12].times(tmp[this.layer].buyables[22].costScalingReduction)));
-                if (hasAchievement("a", 15)) total = total.sub(player[this.layer].buyables[23]);
+                if (hasAchievement("a", 15)) total = total.sub(tmp[this.layer].buyables[23].effect);
                 let cost = Decimal.pow(1.1, total).div(31.5);
                 if (hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
                 return cost;
@@ -281,7 +281,7 @@ addLayer("c1", {
                 if (hasAchievement("a1", 26) && hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
                 return cost;
             },  
-            effect(x) { return x.pow(tmp.p.buyables[32].effect).plus(tmp[this.layer].buyables[this.id].extraLevels) },
+            effect(x) { return D.pow(x, tmp.p.buyables[32].effect).plus(tmp[this.layer].buyables[this.id].extraLevels) },
             costScalingReduction() {
                 if (!hasAchievement("a", 16)) return D(1);
                 else return D.div(1, player[this.layer].buyables[21].plus(1));
@@ -312,7 +312,7 @@ addLayer("c1", {
                 if (hasAchievement("a1", 26) && hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
                 return cost;
             },
-            effect(x) { return x.pow(tmp.p.buyables[32].effect).plus(tmp[this.layer].buyables[this.id].extraLevels) },
+            effect(x) { return D.pow(x, tmp.p.buyables[32].effect).plus(tmp[this.layer].buyables[this.id].extraLevels) },
             costScalingReduction() {
                 if (!hasAchievement("a", 16)) return D(1);
                 else return D.div(1, player[this.layer].buyables[22].plus(1));
@@ -343,7 +343,7 @@ addLayer("c1", {
                 if (hasAchievement("a1", 26) && hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
                 return cost;
             },
-            effect(x) { return x.pow(tmp.p.buyables[32].effect).plus(tmp[this.layer].buyables[this.id].extraLevels) },
+            effect(x) { return D.pow(x, tmp.p.buyables[32].effect).plus(tmp[this.layer].buyables[this.id].extraLevels) },
             costScalingReduction() {
                 if (!hasAchievement("a", 16)) return D(1);
                 else return D.div(1, player[this.layer].buyables[23].plus(1));
@@ -465,7 +465,8 @@ addLayer("c2", {
     row: 0, // Row the layer is in on the tree (0 is the first row)
     layerShown() { return true },
     getResetGain() {
-        return decimalOne;
+        if (tmp.p.buyables[23].effect.gte(1)) return player.c2.position.log(tmp.c2.base).floor().times(tmp.p.buyables[11].effect).sub(player.c2.points.sub(1)).max(1);
+        else return decimalOne;
     },
     prestigeButtonText() {
         return "Req " + format(tmp[this.layer].getNextAt) + " position";
@@ -495,7 +496,7 @@ addLayer("c2", {
                 return "Divides the position<br><br>Req: " + format(tmp[this.layer].buyables[this.id].cost) + " Honour Points<br><br>Currently: /" + format(tmp[this.layer].buyables[this.id].effect)
             },
             cost(x) {
-                let total = x.plus(player[this.layer].buyables[12].plus(player[this.layer].buyables[13])).sub(player[this.layer].buyables[21]);
+                let total = x.plus(player[this.layer].buyables[12].plus(player[this.layer].buyables[13])).sub(tmp[this.layer].buyables[21].effect);
                 let cost = Decimal.pow(1.1, total).div(10.5);
                 return cost;
             },
@@ -512,7 +513,7 @@ addLayer("c2", {
                 return "Exponentiates the position<br><br>Req: " + format(tmp[this.layer].buyables[this.id].cost) + " Honour Points<br><br>Currently: ^" + format(tmp[this.layer].buyables[this.id].effect)
             },
             cost(x) {
-                let total = x.plus(player[this.layer].buyables[11].plus(player[this.layer].buyables[13])).sub(player[this.layer].buyables[22]);
+                let total = x.plus(player[this.layer].buyables[11].plus(player[this.layer].buyables[13])).sub(tmp[this.layer].buyables[22].effect);
                 let cost = Decimal.pow(1.1, total).div(21);
                 return cost;
             },
@@ -529,7 +530,7 @@ addLayer("c2", {
                 return "Multiplies the effective level of Anti-Velocity<br><br>Req: " + format(tmp[this.layer].buyables[this.id].cost) + " Honour Points<br><br>Currently: " + format(tmp[this.layer].buyables[this.id].effect) + "x";
             },
             cost(x) {
-                let total = x.plus(player[this.layer].buyables[11].plus(player[this.layer].buyables[12])).sub(player[this.layer].buyables[23]);
+                let total = x.plus(player[this.layer].buyables[11].plus(player[this.layer].buyables[12])).sub(tmp[this.layer].buyables[23].effect);
                 let cost = Decimal.pow(1.1, total).div(31.5);
                 return cost;
             },
@@ -546,11 +547,11 @@ addLayer("c2", {
                 return "Reduces the cost of Anti-Velocity<br><br>Req: " + format(tmp[this.layer].buyables[this.id].cost) + " Honour Points<br><br>Currently: -" + format(tmp[this.layer].buyables[this.id].effect);
             },
             cost(x) {
-                let total = x.plus(player[this.layer].buyables[22].plus(player[this.layer].buyables[23]));
+                let total = x.plus((tmp.p.buyables[22].effect.gte(2)) ? 0 : player[this.layer].buyables[22].plus(player[this.layer].buyables[23]));
                 let cost = D.pow(1.25, total);
                 return cost;
             },
-            effect(x) { return x.pow(tmp.p.buyables[32].effect) },
+            effect(x) { return D.pow(x, tmp.p.buyables[32].effect) },
             canAfford() { return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) },
             buy() {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
@@ -568,11 +569,11 @@ addLayer("c2", {
                 return "Reduces the cost of Anti-Acceleration<br><br>Req: " + format(tmp[this.layer].buyables[this.id].cost) + " Honour Points<br><br>Currently: -" + format(tmp[this.layer].buyables[this.id].effect);
             },
             cost(x) {
-                let total = x.plus(player[this.layer].buyables[21].plus(player[this.layer].buyables[23]));
+                let total = x.plus((tmp.p.buyables[22].effect.gte(2)) ? 0 : player[this.layer].buyables[21].plus(player[this.layer].buyables[23]));
                 let cost = D.pow(1.25, total);
                 return cost;
             },
-            effect(x) { return x.pow(tmp.p.buyables[32].effect) },
+            effect(x) { return D.pow(x, tmp.p.buyables[32].effect) },
             canAfford() { return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) },
             buy() {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
@@ -590,11 +591,11 @@ addLayer("c2", {
                 return "Reduces the cost of Angles<br><br>Req: " + format(tmp[this.layer].buyables[this.id].cost) + " Honour Points<br><br>Currently: -" + format(tmp[this.layer].buyables[this.id].effect);
             },
             cost(x) {
-                let total = x.plus(player[this.layer].buyables[22].plus(player[this.layer].buyables[21]));
+                let total = x.plus((tmp.p.buyables[22].effect.gte(2)) ? 0 : player[this.layer].buyables[22].plus(player[this.layer].buyables[21]));
                 let cost = D.pow(1.25, total);
                 return cost;
             },
-            effect(x) { return x.pow(tmp.p.buyables[32].effect) },
+            effect(x) { return D.pow(x, tmp.p.buyables[32].effect) },
             canAfford() { return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) },
             buy() {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);

@@ -12,8 +12,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.4",
-	name: "(UNSOFTCAPPED) ALERT!",
+	num: "0.43",
+	name: "Various Fixes",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
@@ -38,7 +38,8 @@ let changelog = `<h1>Changelog:</h1><br><br>
 		-1 New Challenge<br>
 		-1 New row of goals for each mode (24 goals total)<br>
 		-10 New Buyables: 9 Prestige, 1 Base Game/Challenge<br>
-		-Fixed push notifications not showing up for challenge goals (I think this time)<br>`
+		-Fixed push notifications not showing up for challenge goals (I think this time)<br>
+		-Note: I know Head Start through Divine start don't work for achievements past the first few.<br>That will be fixed in 0.5, as the achievements it works for now are enough to reach endgame.`
 
 let winText = `Congratulations! We hope you enjoyed this insanity. Consider giving feedback for the next update because we still have a long ways to go!`
 
