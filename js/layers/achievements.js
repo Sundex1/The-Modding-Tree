@@ -1,3 +1,67 @@
+addLayer("a3", {
+    name: "Direct achievements",
+    symbol: "DG",
+    row: "side",
+    startData() {
+        return {
+            unlocked: true,
+            bestAchs: [],
+        }
+    },
+    color: challengeColors[3],
+    resource: "Direct Goals",
+    layerShown() { return hasAchievement("a", 38) || player.c3.points.gte(1) || inChallenge("c", 13); },
+    achievements: {
+        11: {
+            name: "You can't rush perfection.",
+            tooltip: "Reach 0.5 position. Reward: Unlocks Jump Start, and buyable levels reduce Direct Points effect on position.",
+            done() {
+                let n2 = tmp.p.buyables[41].effect;
+                if (player.c3.position.lte(0.5) && player.c3.points.gte(1)) return true;
+                else if (!player[this.layer].bestAchs.includes(11)) return false;
+                else if (D(1).lte(n2)) return true;
+                else false;
+            },
+            onComplete() { if (!player[this.layer].bestAchs.includes(11)) player[this.layer].bestAchs.push(11) },
+        },
+        12: {
+            name: "Perfection will rush you.",
+            tooltip: "Reach 100 Direct Points. Reward: Unlocks a new Direct Miss reward",
+            done() {
+                let n2 = tmp.p.buyables[41].effect;
+                if (player.c3.points.gte(100)) return true;
+                else if (!player[this.layer].bestAchs.includes(12)) return false;
+                else if (D(2).lte(n2)) return true;
+                else false;
+            },
+            onComplete() { if (!player[this.layer].bestAchs.includes(12)) player[this.layer].bestAchs.push(12) },
+        },
+        13: {
+            name: "You used your enter key did you?",
+            tooltip: "Reach 200 Direct Points. Reward: Row 1 Buyables now scale independently",
+            done() {
+                let n2 = tmp.p.buyables[41].effect;
+                if (player.c3.points.gte(200)) return true;
+                else if (!player[this.layer].bestAchs.includes(13)) return false;
+                else if (D(3).lte(n2)) return true;
+                else false;
+            },
+            onComplete() { if (!player[this.layer].bestAchs.includes(13)) player[this.layer].bestAchs.push(13) },
+        },
+        14: {
+            name: "I need an MVP",
+            tooltip: "Reach 25 of each Desynergizer. Reward: Overcharge Goals multiply Base Goals in their reduction effects",
+            done() {
+                let n2 = tmp.p.buyables[41].effect;
+                if (player.c3.points.gte(200)) return true;
+                else if (!player[this.layer].bestAchs.includes(14)) return false;
+                else if (D(4).lte(n2)) return true;
+                else false;
+            },
+            onComplete() { if (!player[this.layer].bestAchs.includes(14)) player[this.layer].bestAchs.push(14) },
+        },
+    },
+}),
 addLayer("a2", {
     name: "Honor achievements",
     symbol: "HG",
@@ -30,8 +94,10 @@ addLayer("a2", {
             tooltip: "Have 5 Honor Points. Reward:: Unlocks Point Polisher, and you can bulk buy Honour points.",
             done() {
                 let n = tmp.c.challenges[12].effect;
+                let n2 = tmp.p.buyables[23].effect;
                 if (player.c2.points.gte(5)) return true;
                 else if (!player[this.layer].bestAchs.includes(11)) return false;
+                else if (D(player[this.layer].bestAchs[0]).lt(player[this.layer].bestAchs[n2])) return true;
                 else if (!player.c.clickables[13]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[0]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
@@ -44,8 +110,10 @@ addLayer("a2", {
             tooltip: "Have 1 Power Play. Reward: Unlocks Power Play",
             done() {
                 let n = tmp.c.challenges[12].effect;
+                let n2 = tmp.p.buyables[23].effect;
                 if (player.c2.buyables[33].gte(1) && hasAchievement("a2", 11)) return true;
                 else if (!player[this.layer].bestAchs.includes(12)) return false;
+                else if (D(player[this.layer].bestAchs[1]).lt(player[this.layer].bestAchs[n2])) return true;
                 else if (!player.c.clickables[13]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[1]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
@@ -58,8 +126,10 @@ addLayer("a2", {
             tooltip: "Have 100 Honour Points. Reward: Unlocks Head Start",
             done() {
                 let n = tmp.c.challenges[12].effect;
+                let n2 = tmp.p.buyables[23].effect;
                 if (player.c2.points.gte(100) && hasAchievement("a2", 12)) return true;
                 else if (!player[this.layer].bestAchs.includes(13)) return false;
+                else if (D(player[this.layer].bestAchs[2]).lt(player[this.layer].bestAchs[n2])) return true;
                 else if (!player.c.clickables[13]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[2]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
@@ -72,8 +142,10 @@ addLayer("a2", {
             tooltip: "Have 2 of every buyable. Reward: Unlocks Jolt Start",
             done() {
                 let n = tmp.c.challenges[12].effect;
+                let n2 = tmp.p.buyables[23].effect;
                 if (player.c2.buyables[11].gte(2) && player.c2.buyables[12].gte(2) && player.c2.buyables[13].gte(2) && player.c2.buyables[21].gte(2) && player.c2.buyables[22].gte(2) && player.c2.buyables[23].gte(2) && player.c2.buyables[31].gte(2) && player.c2.buyables[32].gte(2) && player.c2.buyables[33].gte(2) && hasAchievement("a2", 13)) return true;
                 else if (!player[this.layer].bestAchs.includes(14)) return false;
+                else if (D(player[this.layer].bestAchs[3]).lt(player[this.layer].bestAchs[n2])) return true;
                 else if (!player.c.clickables[13]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[3]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
@@ -86,8 +158,10 @@ addLayer("a2", {
             tooltip: "Have 250 Honour Points. Reward: You can now enable 2 Goal Tabs for Honour effect 1.",
             done() {
                 let n = tmp.c.challenges[12].effect;
+                let n2 = tmp.p.buyables[23].effect;
                 if (player.c2.points.gte(250) && hasAchievement("a2", 14)) return true;
                 else if (!player[this.layer].bestAchs.includes(15)) return false;
+                else if (D(player[this.layer].bestAchs[4]).lt(player[this.layer].bestAchs[n2])) return true;
                 else if (!player.c.clickables[13]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[4]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
@@ -100,8 +174,10 @@ addLayer("a2", {
             tooltip: "Have 5 of every buyable. Reward: Honour Effect 2 affects the prestige effect hardcap in Honour as well.",
             done() {
                 let n = tmp.c.challenges[12].effect;
+                let n2 = tmp.p.buyables[23].effect;
                 if (player.c2.buyables[11].gte(5) && player.c2.buyables[12].gte(5) && player.c2.buyables[13].gte(5) && player.c2.buyables[21].gte(5) && player.c2.buyables[22].gte(5) && player.c2.buyables[23].gte(5) && player.c2.buyables[31].gte(5) && player.c2.buyables[32].gte(5) && player.c2.buyables[33].gte(5) && hasAchievement("a2", 15)) return true;
                 else if (!player[this.layer].bestAchs.includes(16)) return false;
+                else if (D(player[this.layer].bestAchs[5]).lt(player[this.layer].bestAchs[n2])) return true;
                 else if (!player.c.clickables[13]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[5]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
@@ -114,8 +190,10 @@ addLayer("a2", {
             tooltip: "Have 500 Honour Points. Reward: You can now enable all Goal Tabs for Honour effect 1.",
             done() {
                 let n = tmp.c.challenges[12].effect;
+                let n2 = tmp.p.buyables[23].effect;
                 if (player.c2.points.gte(500) && hasAchievement("a2", 16)) return true;
                 else if (!player[this.layer].bestAchs.includes(17)) return false;
+                else if (D(player[this.layer].bestAchs[6]).lt(player[this.layer].bestAchs[n2])) return true;
                 else if (!player.c.clickables[13]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[6]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
@@ -128,14 +206,48 @@ addLayer("a2", {
             tooltip: "Have 1000 Honour Points. Reward: Unlocks Divine Start",
             done() {
                 let n = tmp.c.challenges[12].effect;
+                let n2 = tmp.p.buyables[23].effect;
                 if (player.c2.points.gte(1000) && hasAchievement("a2", 17)) return true;
                 else if (!player[this.layer].bestAchs.includes(18)) return false;
+                else if (D(player[this.layer].bestAchs[7]).lt(player[this.layer].bestAchs[n2])) return true;
                 else if (!player.c.clickables[13]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[7]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(18)) player[this.layer].bestAchs.push(18) },
+        },
+        21: {
+            name: "On one's journey...",
+            tooltip: "Have 1250 Power Play. Reward: Power Play gives free levels to all row 3 buyables except itself",
+            done() {
+                let n = tmp.c.challenges[12].effect;
+                let n2 = tmp.p.buyables[23].effect;
+                if (player.c2.buyables[33].gte(1250) && hasAchievement("a2", 18)) return true;
+                else if (!player[this.layer].bestAchs.includes(21)) return false;
+                else if (D(player[this.layer].bestAchs[8]).lt(player[this.layer].bestAchs[n2])) return true;
+                else if (!player.c.clickables[13]) return false;
+                else if (n == 0) return false;
+                else if (D(player[this.layer].bestAchs[8]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
+                else false;
+            },
+            onComplete() { if (!player[this.layer].bestAchs.includes(21)) player[this.layer].bestAchs.push(21) },
+        },
+        22: {
+            name: "...paths may converge...",
+            tooltip: "Have 250 of every buyable. Reward. disabled goal retentions add to the effective power disabling amount",
+            done() {
+                let n = tmp.c.challenges[12].effect;
+                let n2 = tmp.p.buyables[23].effect;
+                if (player.c2.buyables[11].gte(250) && player.c2.buyables[12].gte(250) && player.c2.buyables[13].gte(250) && player.c2.buyables[21].gte(250) && player.c2.buyables[22].gte(250) && player.c2.buyables[23].gte(250) && player.c2.buyables[31].gte(250) && player.c2.buyables[32].gte(250) && player.c2.buyables[33].gte(250) && hasAchievement("a2", 21)) return true;
+                else if (!player[this.layer].bestAchs.includes(22)) return false;
+                else if (D(player[this.layer].bestAchs[9]).lt(player[this.layer].bestAchs[n2])) return true;
+                else if (!player.c.clickables[13]) return false;
+                else if (n == 0) return false;
+                else if (D(player[this.layer].bestAchs[9]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
+                else false;
+            },
+            onComplete() { if (!player[this.layer].bestAchs.includes(22)) player[this.layer].bestAchs.push(22) },
         },
     },
 }),
@@ -314,7 +426,7 @@ addLayer("a1", {
         },
         22: {
             name: "Easy to earn. Hard to keep.",
-            tooltip: "Purchase 1 Shrink Factor without Growth Pentation. Reward: Resetting for Overcharge Points resets nothing",
+            tooltip: "Have 1 Shrink Factor without the 'Growth Pentation' Goal. Reward: Resetting for Overcharge Points resets nothing",
             done() {
                 let n = tmp.c.challenges[12].effect;
                 let n2 = tmp.p.buyables[22].effect;
@@ -835,5 +947,85 @@ addLayer("a", {
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(38)) player[this.layer].bestAchs.push(38) },
         },
+        41: {
+            name: "(Not) halfway there...",
+            tooltip: "Reach 50 Prestige Points. Reward: Adds a 4th power disabler to your arsenal, and the effect now exponentiates instead of multiply",
+            done() {
+                let n = tmp.c.challenges[12].effect;
+                let n2 = tmp.p.buyables[21].effect;
+                if (player.p.points.gte(50) && hasAchievement("a", 38)) return true;
+                else if (!player[this.layer].bestAchs.includes(41)) return false;
+                else if (D(player[this.layer].bestAchs[24]).lt(player[this.layer].bestAchs[n2])) return true;
+                else if (!player.c.clickables[11]) return false;
+                else if (n == 0) return false;
+                else if (D(player[this.layer].bestAchs[24]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
+                else false;
+            },
+            onComplete() { if (!player[this.layer].bestAchs.includes(41)) player[this.layer].bestAchs.push(41) },
+        },
+        42: {
+            name: "(NOT) finished...",
+            tooltip: "Reach 100 Prestige Points. Reward: Prestige Points add to the first reward of Direct Miss",
+            done() {
+                let n = tmp.c.challenges[12].effect;
+                let n2 = tmp.p.buyables[21].effect;
+                if (player.p.points.gte(100) && hasAchievement("a", 41)) return true;
+                else if (!player[this.layer].bestAchs.includes(42)) return false;
+                else if (D(player[this.layer].bestAchs[25]).lt(player[this.layer].bestAchs[n2])) return true;
+                else if (!player.c.clickables[11]) return false;
+                else if (n == 0) return false;
+                else if (D(player[this.layer].bestAchs[25]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
+                else false;
+            },
+            onComplete() { if (!player[this.layer].bestAchs.includes(42)) player[this.layer].bestAchs.push(42) },
+        },
+        43: {
+            name: "(DEFINITELY NOT) Beyond Finished",
+            tooltip: "Reach 3500 of each row 1 buyable. Reward: 'Double Digits' reward is improved greatly.",
+            done() {
+                let n = tmp.c.challenges[12].effect;
+                let n2 = tmp.p.buyables[21].effect;
+                if (player.b.buyables[11].gte(3500) && player.b.buyables[12].gte(3500) && player.b.buyables[13].gte(3500) && hasAchievement("a", 42)) return true;
+                else if (!player[this.layer].bestAchs.includes(43)) return false;
+                else if (D(player[this.layer].bestAchs[26]).lt(player[this.layer].bestAchs[n2])) return true;
+                else if (!player.c.clickables[11]) return false;
+                else if (n == 0) return false;
+                else if (D(player[this.layer].bestAchs[26]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
+                else false;
+            },
+            onComplete() { if (!player[this.layer].bestAchs.includes(43)) player[this.layer].bestAchs.push(43) },
+        },
+        44: {
+            name: "(Probably) finished playing (for today)",
+            tooltip: "Reach 1000 of each row 2 buyable. Reward: Resynergizer is now a square root, and its level is applied to the effect after the root.",
+            done() {
+                let n = tmp.c.challenges[12].effect;
+                let n2 = tmp.p.buyables[21].effect;
+                if (player.b.buyables[21].gte(1000) && player.b.buyables[22].gte(1000) && player.b.buyables[23].gte(1000) && hasAchievement("a", 43)) return true;
+                else if (!player[this.layer].bestAchs.includes(44)) return false;
+                else if (D(player[this.layer].bestAchs[27]).lt(player[this.layer].bestAchs[n2])) return true;
+                else if (!player.c.clickables[11]) return false;
+                else if (n == 0) return false;
+                else if (D(player[this.layer].bestAchs[27]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
+                else false;
+            },
+            onComplete() { if (!player[this.layer].bestAchs.includes(44)) player[this.layer].bestAchs.push(44) },
+        },
+        45: {
+            name: "Prestige Goals Tab When?",
+            tooltip: "Have 1000 Point Polisher. Reward. Point Polisher affects row 3 buyables, but row 3 buyables are synchronized.",
+            done() {
+                let n = tmp.c.challenges[12].effect;
+                let n2 = tmp.p.buyables[21].effect;
+                if (player.p.buyables[11].gte(1000) && hasAchievement("a", 44)) return true;
+                else if (!player[this.layer].bestAchs.includes(45)) return false;
+                else if (D(player[this.layer].bestAchs[28]).lt(player[this.layer].bestAchs[n2])) return true;
+                else if (!player.c.clickables[11]) return false;
+                else if (n == 0) return false;
+                else if (D(player[this.layer].bestAchs[28]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
+                else false;
+            },
+            onComplete() { if (!player[this.layer].bestAchs.includes(45)) player[this.layer].bestAchs.push(45) },
+        }
     }
 })

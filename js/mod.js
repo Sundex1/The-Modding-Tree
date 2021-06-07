@@ -12,8 +12,8 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.43",
-	name: "Various Fixes",
+	num: "0.5",
+	name: "Direct Miss Pt. 1",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
@@ -38,8 +38,14 @@ let changelog = `<h1>Changelog:</h1><br><br>
 		-1 New Challenge<br>
 		-1 New row of goals for each mode (24 goals total)<br>
 		-10 New Buyables: 9 Prestige, 1 Base Game/Challenge<br>
-		-Fixed push notifications not showing up for challenge goals (I think this time)<br>
-		-Note: I know Head Start through Divine start don't work for achievements past the first few.<br>That will be fixed in 0.5, as the achievements it works for now are enough to reach endgame.`
+		-Fixed push notifications not showing up for challenge goals (I think this time)<br><br>
+	<h3>v0.5</h3><br>
+		-1 New Challenge<br>
+		-1 New row of goals for each mode (32 goals total, 11 implemented)<br>
+		-1 New Buyables<br>
+		-Yes, I know that Direct Miss position spasms. This is intentional.<br>
+		-Yes, I know I should probably release this when all the content is made, but I'm tired.<br>
+		-Yes, there are probably bugs, so lemme know so they can be squashed. :)<br>`
 
 let winText = `Congratulations! We hope you enjoyed this insanity. Consider giving feedback for the next update because we still have a long ways to go!`
 
@@ -57,7 +63,7 @@ function canGenPoints(){
 }
 // Calculate # of points!
 function getPointGen() {
-	let gain = D(1).div(tmp.p.buyables[33].effect).add(D(player.b.resetTime).times(player.b.points).pow(tmp.p.effect).times(tmp.b.buyables[11].effect).pow(tmp.b.buyables[12].effect));
+	let gain = D(1).times(tmp.p.buyables[33].effect).add(D(player.b.resetTime).times(player.b.points).pow(tmp.p.effect).times(tmp.b.buyables[11].effect).pow(tmp.b.buyables[12].effect));
 	gain = gain.times(D.sub(1, tmp.b.buyables[31].effect1));
 	gain = gain.times(tmp.b.buyables[32].effect);
 	return D.min(gain.pow(-1), 1);
@@ -73,7 +79,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.p.points.gte(25)
+	return hasAchievement("a", 45)
 }
 
 

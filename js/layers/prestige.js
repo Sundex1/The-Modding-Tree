@@ -35,6 +35,7 @@ addLayer("p", {
         if (hasAchievement("a1", 13)) {
             if (player.c1.points.gte(1)) b -= 2;
             if (player.c2.points.gte(1)) b -= 2;
+            if (player.c3.points.gte(1)) b -= 2;
         }
         if (hasAchievement("a", 28)) b -= 1;
         return b;
@@ -59,8 +60,8 @@ addLayer("p", {
         if (inChallenge("c", 12)) return D(1);
         let e = player.p.points.plus(1);
         if (hasAchievement("a", 25)) {
-            if (hasAchievement("a", 26)) e = e.times(D(tmp[this.layer].buyables[13].effect)).times(Object.values(player.b.toggles).filter(x => !x).length + 1);
-            else e = e.plus(Object.values(player.b.toggles).filter(x => !x).length);
+            if (hasAchievement("a", 26)) { if (hasAchievement("a", 41)) e = e.times(D(tmp[this.layer].buyables[13].effect)).pow(Object.values(player.b.toggles).filter(x => !x).length + 1);else e = e.times(D(tmp[this.layer].buyables[13].effect)).times(Object.values(player.b.toggles).filter(x => !x).length + 1); }
+            else e = e.times(D(tmp[this.layer].buyables[13].effect)).plus(Object.values(player.b.toggles).filter(x => !x).length);
         }
         return e;
     },
@@ -78,7 +79,8 @@ addLayer("p", {
             },
             cost(x) {
                 let cost = Decimal.pow(x.plus(1), x.plus(1));
-                if (hasAchievement("a", 34)) cost = cost.plus(1).log(player.a.achievements.length);
+                if (hasAchievement("a", 34)) cost = cost.plus(1).log(D(player.a.achievements.length).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1));
+                if (hasAchievement("a3", 12)) cost = cost.sub(tmp.c.challenges[13].effect2);
                 return cost;
             },
             effect(x) {
@@ -93,11 +95,12 @@ addLayer("p", {
             title() { return "Resynergizer<br>[" + formatWhole(player[this.layer].buyables[this.id]) + "]" },
             unlocked() { return hasAchievement("a", 33) },
             display() {
-                return "Adds the cube root of each row 1 buyable times this upgrade's level to their respective desynergizer.<br><br>Req: " + formatWhole(tmp[this.layer].buyables[this.id].cost) + " Prestige Points"
+                return "Adds the "+(hasAchievement("a",44)?"square":"cube")+" root of each row 1 buyable times this upgrade's level to their respective desynergizer.<br><br>Req: " + formatWhole(tmp[this.layer].buyables[this.id].cost) + " Prestige Points"
             },
             cost(x) {
                 let cost = Decimal.pow(x.plus(1).pow(2), x.plus(1).pow(2));
-                if (hasAchievement("a", 34)) cost = cost.plus(1).log(player.a.achievements.length);
+                if (hasAchievement("a", 34)) cost = cost.plus(1).log(D(player.a.achievements.length).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1));
+                if (hasAchievement("a3", 12)) cost = cost.sub(tmp.c.challenges[13].effect2);
                 return cost;
             },
             effect(x) { return x; },
@@ -114,7 +117,8 @@ addLayer("p", {
             },
             cost(x) {
                 let cost = Decimal.pow(x.plus(1).pow(3), x.plus(1).pow(3));
-                if (hasAchievement("a", 34)) cost = cost.plus(1).log(player.a.achievements.length);
+                if (hasAchievement("a", 34)) cost = cost.plus(1).log(D(player.a.achievements.length).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1));
+                if (hasAchievement("a3", 12)) cost = cost.sub(tmp.c.challenges[13].effect2);
                 return cost;
             },
             effect(x) {
@@ -133,7 +137,8 @@ addLayer("p", {
             },
             cost(x) {
                 let cost = Decimal.pow(x.plus(1).pow(4), x.plus(1).pow(4));
-                if (hasAchievement("a", 34)) cost = cost.plus(1).log(player.a.achievements.length);
+                if (hasAchievement("a", 34)) cost = cost.plus(1).log(D(player.a.achievements.length).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1));
+                if (hasAchievement("a3", 12)) cost = cost.sub(tmp.c.challenges[13].effect2);
                 return cost;
             },
             effect(x) {
@@ -152,7 +157,8 @@ addLayer("p", {
             },
             cost(x) {
                 let cost = Decimal.pow(x.plus(1).pow(5), x.plus(1).pow(5));
-                if (hasAchievement("a", 34)) cost = cost.plus(1).log(player.a.achievements.length);
+                if (hasAchievement("a", 34)) cost = cost.plus(1).log(D(player.a.achievements.length).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1));
+                if (hasAchievement("a3", 12)) cost = cost.sub(tmp.c.challenges[13].effect2);
                 return cost;
             },
             effect(x) {
@@ -171,7 +177,8 @@ addLayer("p", {
             },
             cost(x) {
                 let cost = Decimal.pow(x.plus(1).pow(6), x.plus(1).pow(6));
-                if (hasAchievement("a", 34)) cost = cost.plus(1).log(player.a.achievements.length);
+                if (hasAchievement("a", 34)) cost = cost.plus(1).log(D(player.a.achievements.length).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1));
+                if (hasAchievement("a3", 12)) cost = cost.sub(tmp.c.challenges[13].effect2);
                 return cost;
             },
             effect(x) {
@@ -190,7 +197,8 @@ addLayer("p", {
             },
             cost(x) {
                 let cost = Decimal.pow(x.plus(1).pow(7), x.plus(1).pow(7));
-                if (hasAchievement("a", 34)) cost = cost.plus(1).log(player.a.achievements.length);
+                if (hasAchievement("a", 34)) cost = cost.plus(1).log(D(player.a.achievements.length).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1));
+                if (hasAchievement("a3", 12)) cost = cost.sub(tmp.c.challenges[13].effect2);
                 return cost;
             },
             effect(x) {
@@ -209,7 +217,8 @@ addLayer("p", {
             },
             cost(x) {
                 let cost = Decimal.pow(x.plus(1).pow(8), x.plus(1).pow(8));
-                if (hasAchievement("a", 34)) cost = cost.plus(1).log(player.a.achievements.length);
+                if (hasAchievement("a", 34)) cost = cost.plus(1).log(D(player.a.achievements.length).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1));
+                if (hasAchievement("a3", 12)) cost = cost.sub(tmp.c.challenges[13].effect2);
                 return cost;
             },
             effect(x) {
@@ -228,11 +237,32 @@ addLayer("p", {
             },
             cost(x) {
                 let cost = Decimal.pow(x.plus(1).pow(9), x.plus(1).pow(9));
-                if (hasAchievement("a", 34)) cost = cost.plus(1).log(player.a.achievements.length);
+                if (hasAchievement("a", 34)) cost = cost.plus(1).log(D(player.a.achievements.length).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1));
+                if (hasAchievement("a3", 12)) cost = cost.sub(tmp.c.challenges[13].effect2);
                 return cost;
             },
             effect(x) {
                 return D.pow(10, x);
+            },
+            canAfford() { return player.p.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) },
+            buy() {
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
+            },
+        },
+        41: {
+            title() { return "Head Start<br>[" + formatWhole(player[this.layer].buyables[this.id]) + "]" },
+            unlocked() { return hasAchievement("a3", 11) },
+            display() {
+                return "Retain a portion of your Direct Goals starting from the beginning<br><br>Retained goals bypass honour's hindrance<br><br>Req: " + formatWhole(tmp[this.layer].buyables[this.id].cost) + " Prestige Points<br><br>Currently: +" + formatWhole(tmp[this.layer].buyables[this.id].effect);
+            },
+            cost(x) {
+                let cost = Decimal.pow(x.plus(1).pow(10), x.plus(1).pow(10));
+                if (hasAchievement("a", 34)) cost = cost.plus(1).log(D(player.a.achievements.length).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1));
+                if (hasAchievement("a3", 12)) cost = cost.sub(tmp.c.challenges[13].effect2);
+                return cost;
+            },
+            effect(x) {
+                return D(x);
             },
             canAfford() { return player.p.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) },
             buy() {

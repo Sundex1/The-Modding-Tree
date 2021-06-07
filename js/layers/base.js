@@ -82,16 +82,16 @@ addLayer("b", {
                 return "Divides the position<br><br>Req: "+format(tmp[this.layer].buyables[this.id].cost)+" Base Points<br><br>Currently: /"+format(tmp[this.layer].buyables[this.id].effect)
             },
             cost(x) { 
-                let total = x.plus(player[this.layer].buyables[12].times(tmp[this.layer].buyables[22].costScalingReduction).plus(player[this.layer].buyables[13].times(tmp[this.layer].buyables[23].costScalingReduction)));
+                let total = ((hasAchievement("a3", 13)) ? x : x.plus(player[this.layer].buyables[12].times(tmp[this.layer].buyables[22].costScalingReduction).plus(player[this.layer].buyables[13].times(tmp[this.layer].buyables[23].costScalingReduction))));
                 if (hasAchievement("a", 15)) total = total.sub(tmp[this.layer].buyables[21].effect);
                 let cost = Decimal.pow(1.1, total).div(10.5);
-                if (hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1)); 
+                if (hasAchievement("a", 14)) cost = cost.div(Math.max(D(player.a.achievements.length, 1).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1))); 
                 return cost;
             }, 
             effect(x) { return x.plus(tmp.b.buyables[this.id].extraLevels).times(tmp.b.buyables[13] ? tmp.b.buyables[13].effect : 1).div(250).plus(1).times(tmp.b.buyables[31] ? tmp.b.buyables[31].effect2 : 1)}, 
             canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] && (!hasAchievement("a", 22)||!player.b.toggles[31])},
             buy() {
-                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(Math.max(tmp.c.challenges[13].effect,1));
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
             },
             extraLevels() {
@@ -108,16 +108,16 @@ addLayer("b", {
                 return "Exponentiates the position<br><br>Req: "+format(tmp[this.layer].buyables[this.id].cost)+" Base Points<br><br>Currently: ^"+format(tmp[this.layer].buyables[this.id].effect)
             },
             cost(x) {
-                let total = x.plus(player[this.layer].buyables[11].times(tmp[this.layer].buyables[21].costScalingReduction).plus(player[this.layer].buyables[13].times(tmp[this.layer].buyables[23].costScalingReduction)));
+                let total = ((hasAchievement("a3", 13)) ? x : x.plus(player[this.layer].buyables[11].times(tmp[this.layer].buyables[21].costScalingReduction).plus(player[this.layer].buyables[13].times(tmp[this.layer].buyables[23].costScalingReduction))));
                 if (hasAchievement("a", 15)) total = total.sub(tmp[this.layer].buyables[22].effect);
                 let cost = Decimal.pow(1.1, total).div(21);
-                if (hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
+                if (hasAchievement("a", 14)) cost = cost.div(Math.max(D(player.a.achievements.length, 1).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1))); 
                 return cost;
             }, 
             effect(x) { return D.pow(x.plus(tmp.b.buyables[this.id].extraLevels).plus(1).log(10).div(2).plus(1), tmp.b.buyables[33].effect)},
             canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] && (!hasAchievement("a", 22)||!player.b.toggles[31])},
             buy() {
-                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(Math.max(tmp.c.challenges[13].effect, 1));
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
             },
             extraLevels() {
@@ -134,16 +134,16 @@ addLayer("b", {
                 return "Multiplies the effective level of Anti-Velocity<br><br>Req: "+format(tmp[this.layer].buyables[this.id].cost)+" Base Points<br><br>Currently: "+format(tmp[this.layer].buyables[this.id].effect)+"x";
             },
             cost(x) {
-                let total = x.plus(player[this.layer].buyables[11].times(tmp[this.layer].buyables[21].costScalingReduction).plus(player[this.layer].buyables[12].times(tmp[this.layer].buyables[22].costScalingReduction)));
+                let total = ((hasAchievement("a3", 13)) ? x : x.plus(player[this.layer].buyables[11].times(tmp[this.layer].buyables[21].costScalingReduction).plus(player[this.layer].buyables[12].times(tmp[this.layer].buyables[22].costScalingReduction))));
                 if (hasAchievement("a", 15)) total = total.sub(tmp[this.layer].buyables[23].effect);
                 let cost = Decimal.pow(1.1, total).div(31.5);
-                if (hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
+                if (hasAchievement("a", 14)) cost = cost.div(Math.max(D(player.a.achievements.length, 1).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1))); 
                 return cost;
             }, 
             effect(x) { return x.plus(tmp.b.buyables[this.id].extraLevels).plus(1).log10().div(4).plus(1).times(tmp.b.buyables[31] ? tmp.b.buyables[31].effect2 : 1)},
             canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] && (!hasAchievement("a", 22)||!player.b.toggles[31])},
             buy() {
-                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(Math.max(tmp.c.challenges[13].effect, 1));
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
             },
             extraLevels() {
@@ -163,8 +163,10 @@ addLayer("b", {
                 let total = x.plus(hasAchievement("a1", 12)?0:(player[this.layer].buyables[22].plus(player[this.layer].buyables[23])));
                 let cost = D.pow(1.25, total);
                 if (hasAchievement("a", 18)) cost = cost.div(player.points.log10().times(hasAchievement("a1", 14)?player.c1.points.plus(1):1).times(-1).plus(1));
-                if (hasAchievement("a1", 18)) cost = cost.div(player.b.buyables[11].plus(1).log10().plus(1));
-                if (hasAchievement("a1", 26) && hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
+                if (hasAchievement("a1", 18)) {
+                    if (hasAchievement("a", 43)) cost = cost.div(player.b.buyables[11].plus(1).log(2).plus(1)); else cost = cost.div(player.b.buyables[11].plus(1).log10().plus(1));
+                };
+                if (hasAchievement("a1", 26) && hasAchievement("a", 14)) cost = cost.div(Math.max(D(player.a.achievements.length, 1).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1))); 
                 return cost;
             },  
             effect(x) { return D.pow(x, tmp.p.buyables[32].effect).plus(tmp[this.layer].buyables[this.id].extraLevels) },
@@ -174,14 +176,17 @@ addLayer("b", {
             },
             canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id]},
             buy() {
-                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(Math.max(tmp.c.challenges[13].effect, 1));
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
             },
             extraLevels() {
                 let e = D(0);
                 if (hasAchievement("a", 24)) e = e.plus(player[this.layer].buyables[32])
                 if (hasAchievement("a1", 17)) e = e.plus(player.c1.buyables[21])
-                if (player.p.buyables[12].gt(0)) e = e.plus(tmp.p.buyables[12].effect.times(player[this.layer].buyables[this.id-10]).root(3))
+                if (player.p.buyables[12].gt(0)) {
+                    if (hasAchievement("a", 44)) e = e.plus(player[this.layer].buyables[this.id - 10]).root(2).times(tmp.p.buyables[12].effect);
+                    else e = e.plus(tmp.p.buyables[12].effect.times(player[this.layer].buyables[this.id - 10]).root(3));
+                }
                 return e;
             },
         },
@@ -195,8 +200,10 @@ addLayer("b", {
                 let total = x.plus(hasAchievement("a1", 12)?0:player[this.layer].buyables[21].plus(player[this.layer].buyables[23]));
                 let cost = D.pow(1.25, total);
                 if (hasAchievement("a", 18)) cost = cost.div(player.points.log10().times(hasAchievement("a1", 14)?player.c1.points.plus(1):1).times(-1).plus(1));
-                if (hasAchievement("a1", 18)) cost = cost.div(player.b.buyables[12].plus(1).log10().plus(1));
-                if (hasAchievement("a1", 26) && hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
+                if (hasAchievement("a1", 18)) {
+                    if (hasAchievement("a", 43)) cost = cost.div(player.b.buyables[12].plus(1).log(2).plus(1)); else cost = cost.div(player.b.buyables[12].plus(1).log10().plus(1));
+                };
+                if (hasAchievement("a1", 26) && hasAchievement("a", 14)) cost = cost.div(Math.max(D(player.a.achievements.length, 1).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1))); 
                 return cost;
             },
             effect(x) { return D.pow(x, tmp.p.buyables[32].effect).plus(tmp[this.layer].buyables[this.id].extraLevels) },
@@ -206,14 +213,17 @@ addLayer("b", {
             },
             canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id]},
             buy() {
-                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(Math.max(tmp.c.challenges[13].effect, 1));
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
             },
             extraLevels() {
                 let e = D(0);
                 if (hasAchievement("a", 24)) e = e.plus(player[this.layer].buyables[32])
                 if (hasAchievement("a1", 17)) e = e.plus(player.c1.buyables[22])
-                if (player.p.buyables[12].gt(0)) e = e.plus(tmp.p.buyables[12].effect.times(player[this.layer].buyables[this.id - 10]).root(3))
+                if (player.p.buyables[12].gt(0)) {
+                    if (hasAchievement("a", 44)) e = e.plus(player[this.layer].buyables[this.id - 10]).root(2).times(tmp.p.buyables[12].effect);
+                    else e = e.plus(tmp.p.buyables[12].effect.times(player[this.layer].buyables[this.id - 10]).root(3));
+                }
                 return e;
             },
         },
@@ -227,8 +237,10 @@ addLayer("b", {
                 let total = x.plus(hasAchievement("a1", 12)?0:player[this.layer].buyables[22].plus(player[this.layer].buyables[21]));
                 let cost = D.pow(1.25, total);
                 if (hasAchievement("a", 18)) cost = cost.div(player.points.log10().times(hasAchievement("a1", 14)?player.c1.points.plus(1):1).times(-1).plus(1));
-                if (hasAchievement("a1", 18)) cost = cost.div(player.b.buyables[13].plus(1).log10().plus(1));
-                if (hasAchievement("a1", 26) && hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
+                if (hasAchievement("a1", 18)) {
+                    if (hasAchievement("a", 43)) cost = cost.div(player.b.buyables[13].plus(1).log(2).plus(1)); else cost = cost.div(player.b.buyables[13].plus(1).log10().plus(1));
+                };
+                if (hasAchievement("a1", 26) && hasAchievement("a", 14)) cost = cost.div(Math.max(D(player.a.achievements.length, 1).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1))); 
                 return cost;
             },
             effect(x) { return D.pow(x, tmp.p.buyables[32].effect).plus(tmp[this.layer].buyables[this.id].extraLevels) },
@@ -238,19 +250,22 @@ addLayer("b", {
             },
             canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id]},
             buy() {
-                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(Math.max(tmp.c.challenges[13].effect, 1));
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
             },
             extraLevels() {
                 let e = D(0);
                 if (hasAchievement("a", 24)) e = e.plus(player[this.layer].buyables[32])
                 if (hasAchievement("a1", 17)) e = e.plus(player.c1.buyables[23])
-                if (player.p.buyables[12].gt(0)) e = e.plus(tmp.p.buyables[12].effect.times(player[this.layer].buyables[this.id - 10]).root(3))
+                if (player.p.buyables[12].gt(0)) {
+                    if (hasAchievement("a", 44)) e = e.plus(player[this.layer].buyables[this.id - 10]).root(2).times(tmp.p.buyables[12].effect);
+                    else e = e.plus(tmp.p.buyables[12].effect.times(player[this.layer].buyables[this.id - 10]).root(3));
+                }
                 return e;
             },
         },
         31: {
-            title() { return "Direct Attack<br>[" + formatWhole(player[this.layer].buyables[this.id]) + "]" },
+            title() { return "Direct Attack<br>[" + formatWhole(player[this.layer].buyables[this.id])+(tmp.b.buyables[this.id].extraLevels.gt(0) ? (" + " + formatWhole(tmp.b.buyables[this.id].extraLevels)) : "") + "]" },
             unlocked() { return hasAchievement("a", 17) },
             display() {
                 return "Subtracts a percentage of your current position from your position.<br>Also multiplies the effect of the first & third buyables<br><br>Req: " + format(tmp[this.layer].buyables[this.id].cost) + " Base Points <br><br>Currently: -" + format(tmp[this.layer].buyables[this.id].effect1.times(100))+"%, "+format(tmp[this.layer].buyables[this.id].effect2)+"x";
@@ -258,25 +273,30 @@ addLayer("b", {
             cost(x) {
                 let total = x.times(player[this.layer].buyables[32].max(1)).times(player[this.layer].buyables[33].max(1))
                 let cost = D.pow(1.5, total).times(2);
-                if (hasAchievement("a1", 27) && hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
+                if (hasAchievement("a1", 27) && hasAchievement("a", 14)) cost = cost.div(Math.max(D(player.a.achievements.length, 1).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1))); 
                 return cost;
             },
             effect1(x=player[this.layer].buyables[this.id]) {
-                return D.sub(1, D.div(1, x.plus(1).log2().plus(1)));
+                return D.sub(1, D.div(1, x.plus(1).plus(tmp[this.layer].buyables[this.id].extraLevels).log2().plus(1)));
             },
             effect2(x=player[this.layer].buyables[this.id]) {
                 let power = D(1);
                 if (hasAchievement("a", 22)) power = power.times(player[this.layer].buyables[21].plus(player[this.layer].buyables[22]).plus(player[this.layer].buyables[23]).max(1).log(100).plus(1));
-                return x.plus(1).log2().times(power).plus(1);
+                return x.plus(1).plus(tmp[this.layer].buyables[this.id].extraLevels).log2().times(power).plus(1);
             },
             canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id]},
             buy() {
-                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(Math.max(tmp.c.challenges[13].effect, 1));
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
+            },
+            extraLevels() {
+                let e = D(0);
+                if (hasAchievement("a2", 21)) e = e.plus(player[this.layer].buyables[33])
+                return e;
             },
         },
         32: {
-            title() { return "Shrink Factor<br>[" + formatWhole(player[this.layer].buyables[this.id]) + "]" },
+            title() { return "Shrink Factor<br>[" + formatWhole(player[this.layer].buyables[this.id])+(tmp.b.buyables[this.id].extraLevels.gt(0) ? (" + " + formatWhole(tmp.b.buyables[this.id].extraLevels)) : "") + "]" },
             unlocked() { return hasAchievement("a1", 13) },
             display() {
                 return "Divides your position based on your position<br><br>Req: " + format(tmp[this.layer].buyables[this.id].cost) + " Base Points <br><br>Currently: /" + format(tmp[this.layer].buyables[this.id].effect);
@@ -284,16 +304,21 @@ addLayer("b", {
             cost(x) {
                 let total = x.times(player[this.layer].buyables[31].max(1)).times(player[this.layer].buyables[33].max(1))
                 let cost = D.pow(1.5, total).times(hasAchievement("a", 24) ? 4.9 : 24.5);
-                if (hasAchievement("a1", 27) && hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
+                if (hasAchievement("a1", 27) && hasAchievement("a", 14)) cost = cost.div(Math.max(D(player.a.achievements.length, 1).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1))); 
                 return cost;
             },
             effect(x = player[this.layer].buyables[this.id]) {
-                return player.points.log10().times(-1).plus(1).pow(x.div(3)).times((hasAchievement("a1", 24)) ? player.b.points.plus(player.c1.points).plus(player.c2.points).plus(1).log10().plus(1) : 1)
+                return player.points.log10().times(-1).plus(1).pow(x.plus(tmp[this.layer].buyables[this.id].extraLevels).div(3)).times((hasAchievement("a1", 24)) ? player.b.points.plus(player.c1.points).plus(player.c2.points).plus(1).log10().plus(1) : 1)
             },
             canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] },
             buy() {
-                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(Math.max(tmp.c.challenges[13].effect, 1));
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
+            },
+            extraLevels() {
+                let e = D(0);
+                if (hasAchievement("a2", 21)) e = e.plus(player[this.layer].buyables[33])
+                return e;
             },
         },
         33: {
@@ -305,7 +330,7 @@ addLayer("b", {
             cost(x) {
                 let total = x.times(player[this.layer].buyables[31].max(1)).times(player[this.layer].buyables[32].max(1));
                 let cost = D.pow(1.5, total).times(50);
-                if (hasAchievement("a1", 27) && hasAchievement("a", 14)) cost = cost.div(Math.max(player.a.achievements.length, 1));
+                if (hasAchievement("a1", 27) && hasAchievement("a", 14)) cost = cost.div(Math.max(D(player.a.achievements.length, 1).times(hasAchievement("a3", 14) ? Math.max(player.a1.achievements.length, 1) : 1))); 
                 return cost;
             },
             effect(x = player[this.layer].buyables[this.id]) {
@@ -313,12 +338,12 @@ addLayer("b", {
             },
             canAfford() { return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] },
             buy() {
-                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
+                player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(Math.max(tmp.c.challenges[13].effect, 1));
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
             },
         },
     },
-    toggleAmount() { return hasAchievement("a", 25)?3:(hasAchievement("a", 18)?2:1) },
+    toggleAmount() { return (hasAchievement("a2", 22) ? D(4).plus(D(3).sub(Object.keys(player.c.clickables).filter(x => player.c.clickables[x] || x == [11, 12, 13]).length)) : (hasAchievement("a", 41)?4:(hasAchievement("a", 25)?3:(hasAchievement("a", 18)?2:1)))) },
     clickables: { 
         rows: 3,
         cols: 3,
@@ -410,7 +435,7 @@ addLayer("b", {
             display() { return "Toggles Direct Attack <br> but changes costs of other buyables<br><br>"+(player.b.toggles[31]?"ON":"OFF") },
             unlocked() { return hasAchievement("a", 17) && hasAchievement("a", 14) },
             canClick() { return hasAchievement("a", 17) && Object.keys(player.b.toggles).filter(x => !player.b.toggles[x] || x==31).length<=tmp.b.toggleAmount},
-            onClick() { 
+            onClick() {
                 player.b.toggles[31] = !player.b.toggles[31]
                 if (player.b.toggles[31]) player.b.buyables[31] = player.b.totalBuyables[31]
                 else player.b.buyables[31] = D(0)
@@ -424,7 +449,7 @@ addLayer("b", {
             display() { return "Toggles Shrink Factor <br> but changes costs of other buyables<br><br>"+(player.b.toggles[32]?"ON":"OFF") },
             unlocked() { return hasAchievement("a1", 13) && hasAchievement("a", 14) },
             canClick() { return hasAchievement("a1", 13) && Object.keys(player.b.toggles).filter(x => !player.b.toggles[x] || x==32).length<=tmp.b.toggleAmount},
-            onClick() { 
+            onClick() {
                 player.b.toggles[32] = !player.b.toggles[32]
                 if (player.b.toggles[32]) player.b.buyables[32] = player.b.totalBuyables[32]
                 else player.b.buyables[32] = D(0)
