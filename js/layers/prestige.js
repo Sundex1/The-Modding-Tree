@@ -151,7 +151,7 @@ addLayer("p", {
         },
         22: {
             title() { return "Jolt Start<br>[" + formatWhole(player[this.layer].buyables[this.id]) + "]" },
-            unlocked() { return hasAchievement("a2", 13) },
+            unlocked() { return hasAchievement("a2", 14) },
             display() {
                 return "Retain a portion of your Overcharge Goals starting from the beginning<br><br>Retained goals bypass honour's hindrance<br><br>Req: " + formatWhole(tmp[this.layer].buyables[this.id].cost) + " Prestige Points<br><br>Currently: +" + formatWhole(tmp[this.layer].buyables[this.id].effect);
             },
@@ -250,7 +250,7 @@ addLayer("p", {
             },
         },
         41: {
-            title() { return "Head Start<br>[" + formatWhole(player[this.layer].buyables[this.id]) + "]" },
+            title() { return "Jump Start<br>[" + formatWhole(player[this.layer].buyables[this.id]) + "]" },
             unlocked() { return hasAchievement("a3", 11) },
             display() {
                 return "Retain a portion of your Direct Goals starting from the beginning<br><br>Retained goals bypass honour's hindrance<br><br>Req: " + formatWhole(tmp[this.layer].buyables[this.id].cost) + " Prestige Points<br><br>Currently: +" + formatWhole(tmp[this.layer].buyables[this.id].effect);

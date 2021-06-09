@@ -11,6 +11,10 @@ addLayer("a3", {
     color: challengeColors[3],
     resource: "Direct Goals",
     layerShown() { return hasAchievement("a", 38) || player.c3.points.gte(1) || inChallenge("c", 13); },
+    tabFormat: [
+        "blank",
+        "achievements",
+    ],
     achievements: {
         11: {
             name: "You can't rush perfection.",
@@ -19,11 +23,12 @@ addLayer("a3", {
                 let n2 = tmp.p.buyables[41].effect;
                 if (player.c3.position.lte(0.5) && player.c3.points.gte(1)) return true;
                 else if (!player[this.layer].bestAchs.includes(11)) return false;
-                else if (D(1).lte(n2)) return true;
+                else if (D(player[this.layer].bestAchs[0]).lt(player[this.layer].bestAchs[n2])) return true;
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(11)) player[this.layer].bestAchs.push(11) },
         },
+        //past this point, jump start does not affect honour hindrance
         12: {
             name: "Perfection will rush you.",
             tooltip: "Reach 100 Direct Points. Reward: Unlocks a new Direct Miss reward",
@@ -31,7 +36,7 @@ addLayer("a3", {
                 let n2 = tmp.p.buyables[41].effect;
                 if (player.c3.points.gte(100)) return true;
                 else if (!player[this.layer].bestAchs.includes(12)) return false;
-                else if (D(2).lte(n2)) return true;
+                else if (D(player[this.layer].bestAchs[1]).lt(player[this.layer].bestAchs[n2])) return true;
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(12)) player[this.layer].bestAchs.push(12) },
@@ -43,7 +48,7 @@ addLayer("a3", {
                 let n2 = tmp.p.buyables[41].effect;
                 if (player.c3.points.gte(200)) return true;
                 else if (!player[this.layer].bestAchs.includes(13)) return false;
-                else if (D(3).lte(n2)) return true;
+                else if (D(player[this.layer].bestAchs[2]).lt(player[this.layer].bestAchs[n2])) return true;
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(13)) player[this.layer].bestAchs.push(13) },
@@ -53,9 +58,9 @@ addLayer("a3", {
             tooltip: "Reach 25 of each Desynergizer. Reward: Overcharge Goals multiply Base Goals in their reduction effects",
             done() {
                 let n2 = tmp.p.buyables[41].effect;
-                if (player.c3.points.gte(200)) return true;
+                if (player.c3.buyables[21].gte(25) && player.c3.buyables[22].gte(25) && player.c3.buyables[23].gte(25) && player.c3.buyables[31].gte(25)) return true;
                 else if (!player[this.layer].bestAchs.includes(14)) return false;
-                else if (D(4).lte(n2)) return true;
+                else if (D(player[this.layer].bestAchs[3]).lt(player[this.layer].bestAchs[n2])) return true;
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(14)) player[this.layer].bestAchs.push(14) },
@@ -91,7 +96,7 @@ addLayer("a2", {
     achievements: {
         11: {
             name: "The real game begins now...",
-            tooltip: "Have 5 Honor Points. Reward:: Unlocks Point Polisher, and you can bulk buy Honour points.",
+            tooltip: "Have 5 Honor Points. Reward: Unlocks Point Polisher, and you can bulk buy Honour points.",
             done() {
                 let n = tmp.c.challenges[12].effect;
                 let n2 = tmp.p.buyables[23].effect;
@@ -169,6 +174,7 @@ addLayer("a2", {
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(15)) player[this.layer].bestAchs.push(15) },
         },
+        //past this point, divine start does not affect honour hindrance
         16: {
             name: "...waiting for the day...",
             tooltip: "Have 5 of every buyable. Reward: Honour Effect 2 affects the prestige effect hardcap in Honour as well.",
@@ -235,7 +241,7 @@ addLayer("a2", {
         },
         22: {
             name: "...paths may converge...",
-            tooltip: "Have 250 of every buyable. Reward. disabled goal retentions add to the effective power disabling amount",
+            tooltip: "Have 250 of every buyable. Reward: Disabled goal retentions add to the maximum power disabling amount",
             done() {
                 let n = tmp.c.challenges[12].effect;
                 let n2 = tmp.p.buyables[23].effect;
@@ -311,7 +317,6 @@ addLayer("a1", {
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(12)) player[this.layer].bestAchs.push(12) },
         },
-        //beyond this point, jolt start does not affect honour
         13: {
             name: "Devil's Blessing^2",
             tooltip: "Reach 6 Overcharge Points. Reward: Unlocks Shrink Factor, and every challenge that has at least 1 point reduces the base cost of Prestige Points by 2 (capped at 3 challenges)",
@@ -328,6 +333,7 @@ addLayer("a1", {
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(13)) player[this.layer].bestAchs.push(13) },
         },
+        //beyond this point, jolt start does not affect honour
         14: {
             name: "Peter's Blessing^2",
             tooltip: "Reach 7 Overcharge Points. Reward: Peter's Blessing's first effect is boosted based on your Overcharge Points",
@@ -577,6 +583,13 @@ addLayer("a", {
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(11)) player[this.layer].bestAchs.push(11) },
+            style() {
+                if (D(layers[this.layer].achievements[this.id].done(true))) {
+                    if (D(player[this.layer].bestAchs[0]).lt(player[this.layer].bestAchs[tmp.p.buyables[21].effect])) return { "background-color": "#DD00EE"};
+                    else return { "background-color": "#77bf5f" };
+                }
+                else return { "background-color": "#bf8f8f" };;
+            }
         },
         12: {
             name: "That shouldn't be happening...",
@@ -593,6 +606,13 @@ addLayer("a", {
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(12)) player[this.layer].bestAchs.push(12) },
+            style() {
+                if (D(layers[this.layer].achievements[this.id].done(true))) {
+                    if (D(player[this.layer].bestAchs[1]).lt(player[this.layer].bestAchs[tmp.p.buyables[21].effect])) return { "background-color": "#DD00EE" };
+                    else return { "background-color": "#77bf5f" };
+                }
+                else return { "background-color": "#bf8f8f" };;
+            }
         },
         13: {
             name: "Speeding up to slow down",
@@ -609,8 +629,15 @@ addLayer("a", {
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(13)) player[this.layer].bestAchs.push(13) },
+            style() {
+                if (D(layers[this.layer].achievements[this.id].done(true))) {
+                    if (D(player[this.layer].bestAchs[2]).lt(player[this.layer].bestAchs[tmp.p.buyables[21].effect])) return { "background-color": "#DD00EE" };
+                    else return { "background-color": "#77bf5f" };
+                }
+                else return { "background-color": "#bf8f8f" };;
+            }
         },
-        //beyond this point, jolt start does not affect honour
+        //past this point, head start does not affect honour.
         14: {
             name: "But Enough Grinding, Have a Puzzle!",
             tooltip: "Reach 10 Angles. Reward: Your Achievement Number divides the requirements for the first 3 buyables, and you unlock Power Disablers",
@@ -626,6 +653,13 @@ addLayer("a", {
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(14)) player[this.layer].bestAchs.push(14) },
+            style() {
+                if (D(layers[this.layer].achievements[this.id].done(true))) {
+                    if (D(player[this.layer].bestAchs[3]).lt(player[this.layer].bestAchs[tmp.p.buyables[21].effect])) return { "background-color": "#DD00EE" };
+                    else return { "background-color": "#77bf5f" };
+                }
+                else return { "background-color": "#bf8f8f" };;
+            }
         },
         15: {
             name: "You Got your nickel back!",
@@ -642,6 +676,13 @@ addLayer("a", {
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(15)) player[this.layer].bestAchs.push(15) },
+            style() {
+                if (D(layers[this.layer].achievements[this.id].done(true))) {
+                    if (D(player[this.layer].bestAchs[4]).lt(player[this.layer].bestAchs[tmp.p.buyables[21].effect])) return { "background-color": "#DD00EE" };
+                    else return { "background-color": "#77bf5f" };
+                }
+                else return { "background-color": "#bf8f8f" };;
+            }
         },
         16: {
             name: "Desynergizers weak 4/10!",
@@ -658,6 +699,13 @@ addLayer("a", {
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(16)) player[this.layer].bestAchs.push(16) },
+            style() {
+                if (D(layers[this.layer].achievements[this.id].done(true))) {
+                    if (D(player[this.layer].bestAchs[5]).lt(player[this.layer].bestAchs[tmp.p.buyables[21].effect])) return { "background-color": "#DD00EE" };
+                    else return { "background-color": "#77bf5f" };
+                }
+                else return { "background-color": "#bf8f8f" };;
+            }
         },
         17: {
             name: "Devil's Blessing",
@@ -674,6 +722,13 @@ addLayer("a", {
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(17)) player[this.layer].bestAchs.push(17) },
+            style() {
+                if (D(layers[this.layer].achievements[this.id].done(true))) {
+                    if (D(player[this.layer].bestAchs[6]).lt(player[this.layer].bestAchs[tmp.p.buyables[21].effect])) return { "background-color": "#DD00EE" };
+                    else return { "background-color": "#77bf5f" };
+                }
+                else return { "background-color": "#bf8f8f" };;
+            }
         },
         18: {
             name: "Peter's Blessing",
@@ -690,6 +745,13 @@ addLayer("a", {
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(18)) player[this.layer].bestAchs.push(18) },
+            style() {
+                if (D(layers[this.layer].achievements[this.id].done(true))) {
+                    if (D(player[this.layer].bestAchs[7]).lt(player[this.layer].bestAchs[tmp.p.buyables[21].effect])) return { "background-color": "#DD00EE" };
+                    else return { "background-color": "#77bf5f" };
+                }
+                else return { "background-color": "#bf8f8f" };
+            }
         },
         21: {
             name: "This feels too soon...",
@@ -706,6 +768,13 @@ addLayer("a", {
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(21)) player[this.layer].bestAchs.push(21) },
+            style() {
+                if (D(layers[this.layer].achievements[this.id].done(true))) {
+                    if (D(player[this.layer].bestAchs[8]).lt(player[this.layer].bestAchs[tmp.p.buyables[21].effect])) return { "background-color": "#DD00EE" };
+                    else return { "background-color": "#77bf5f" };
+                }
+                else return { "background-color": "#bf8f8f" };
+            }
         },
         22: {
             name: "A little out of character",
@@ -722,6 +791,13 @@ addLayer("a", {
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(22)) player[this.layer].bestAchs.push(22) },
+            style() {
+                if (D(layers[this.layer].achievements[this.id].done(true))) {
+                    if (D(player[this.layer].bestAchs[9]).lt(player[this.layer].bestAchs[tmp.p.buyables[21].effect])) return { "background-color": "#DD00EE" };
+                    else return { "background-color": "#77bf5f" };
+                }
+                else return { "background-color": "#bf8f8f" };
+            }
         },
         23: {
             name: "It takes two twos to two",
@@ -738,6 +814,13 @@ addLayer("a", {
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(23)) player[this.layer].bestAchs.push(23) },
+            style() {
+                if (D(layers[this.layer].achievements[this.id].done(true))) {
+                    if (D(player[this.layer].bestAchs[10]).lt(player[this.layer].bestAchs[tmp.p.buyables[21].effect])) return { "background-color": "#DD00EE" };
+                    else return { "background-color": "#77bf5f" };
+                }
+                else return { "background-color": "#bf8f8f" };
+            }
         },
         24: {
             name: "Growth Pentation",
@@ -754,6 +837,13 @@ addLayer("a", {
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(24)) player[this.layer].bestAchs.push(24) },
+            style() {
+                if (D(layers[this.layer].achievements[this.id].done(true))) {
+                    if (D(player[this.layer].bestAchs[11]).lt(player[this.layer].bestAchs[tmp.p.buyables[21].effect])) return { "background-color": "#DD00EE" };
+                    else return { "background-color": "#77bf5f" };
+                }
+                else return { "background-color": "#bf8f8f" };
+            }
         },
         25: {
             name: "Rule of Three",
@@ -770,6 +860,13 @@ addLayer("a", {
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(25)) player[this.layer].bestAchs.push(25) },
+            style() {
+                if (D(layers[this.layer].achievements[this.id].done(true))) {
+                    if (D(player[this.layer].bestAchs[12]).lt(player[this.layer].bestAchs[tmp.p.buyables[21].effect])) return { "background-color": "#DD00EE" };
+                    else return { "background-color": "#77bf5f" };
+                }
+                else return { "background-color": "#bf8f8f" };
+            }
         },
         26: {
             name: "More Threes? Have at three!",
@@ -786,6 +883,13 @@ addLayer("a", {
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(26)) player[this.layer].bestAchs.push(26) },
+            style() {
+                if (D(layers[this.layer].achievements[this.id].done(true))) {
+                    if (D(player[this.layer].bestAchs[13]).lt(player[this.layer].bestAchs[tmp.p.buyables[21].effect])) return { "background-color": "#DD00EE" };
+                    else return { "background-color": "#77bf5f" };
+                }
+                else return { "background-color": "#bf8f8f" };
+            }
         },
         27: {
             name: "You knew it was coming...",
@@ -802,6 +906,13 @@ addLayer("a", {
                 else false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(27)) player[this.layer].bestAchs.push(27) },
+            style() {
+                if (D(layers[this.layer].achievements[this.id].done(true))) {
+                    if (D(player[this.layer].bestAchs[14]).lt(player[this.layer].bestAchs[tmp.p.buyables[21].effect])) return { "background-color": "#DD00EE" };
+                    else return { "background-color": "#77bf5f" };
+                }
+                else return { "background-color": "#bf8f8f" };
+            }
         },
         28: {
             name: "I refuse.",
@@ -933,7 +1044,7 @@ addLayer("a", {
         },
         38: {
             name: "A new challenge? Don't say I didn't warn you!",
-            tooltip: "Reach 200 total row 3 buyables. Reward: Unlocks Direct Miss (coming in 0.5)",
+            tooltip: "Reach 200 total row 3 buyables. Reward: Unlocks Direct Miss",
             done() {
                 let n = tmp.c.challenges[12].effect;
                 let n2 = tmp.p.buyables[21].effect;
@@ -1013,7 +1124,7 @@ addLayer("a", {
         },
         45: {
             name: "Prestige Goals Tab When?",
-            tooltip: "Have 1000 Point Polisher. Reward. Point Polisher affects row 3 buyables, but row 3 buyables are synchronized.",
+            tooltip: "Have 1000 Point Polisher. Reward: Point Polisher affects row 3 buyables, but row 3 buyables are synchronized.",
             done() {
                 let n = tmp.c.challenges[12].effect;
                 let n2 = tmp.p.buyables[21].effect;
