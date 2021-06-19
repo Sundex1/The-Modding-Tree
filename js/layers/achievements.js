@@ -24,7 +24,7 @@ addLayer("a3", {
                 if (player.c3.position.lte(0.5) && player.c3.points.gte(1)) return true;
                 else if (!player[this.layer].bestAchs.includes(11)) return false;
                 else if (D(player[this.layer].bestAchs[0]).lt(player[this.layer].bestAchs[n2])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(11)) player[this.layer].bestAchs.push(11) },
         },
@@ -37,7 +37,7 @@ addLayer("a3", {
                 if (player.c3.points.gte(100)) return true;
                 else if (!player[this.layer].bestAchs.includes(12)) return false;
                 else if (D(player[this.layer].bestAchs[1]).lt(player[this.layer].bestAchs[n2])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(12)) player[this.layer].bestAchs.push(12) },
         },
@@ -49,7 +49,7 @@ addLayer("a3", {
                 if (player.c3.points.gte(200)) return true;
                 else if (!player[this.layer].bestAchs.includes(13)) return false;
                 else if (D(player[this.layer].bestAchs[2]).lt(player[this.layer].bestAchs[n2])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(13)) player[this.layer].bestAchs.push(13) },
         },
@@ -58,10 +58,10 @@ addLayer("a3", {
             tooltip: "Reach 25 of each Desynergizer. Reward: Overcharge Goals multiply Base Goals in their reduction effects",
             done() {
                 let n2 = tmp.p.buyables[41].effect;
-                if (player.c3.buyables[21].gte(25) && player.c3.buyables[22].gte(25) && player.c3.buyables[23].gte(25) && player.c3.buyables[31].gte(25)) return true;
+                if (player.c3.buyables[21].gte(25) && player.c3.buyables[22].gte(25) && player.c3.buyables[23].gte(25)) return true;
                 else if (!player[this.layer].bestAchs.includes(14)) return false;
                 else if (D(player[this.layer].bestAchs[3]).lt(player[this.layer].bestAchs[n2])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(14)) player[this.layer].bestAchs.push(14) },
         },
@@ -106,7 +106,7 @@ addLayer("a2", {
                 else if (!player.c.clickables[13]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[0]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(11)) player[this.layer].bestAchs.push(11) },
         },
@@ -122,7 +122,7 @@ addLayer("a2", {
                 else if (!player.c.clickables[13]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[1]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(12)) player[this.layer].bestAchs.push(12) },
         },
@@ -138,7 +138,7 @@ addLayer("a2", {
                 else if (!player.c.clickables[13]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[2]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(13)) player[this.layer].bestAchs.push(13) },
         },
@@ -154,7 +154,7 @@ addLayer("a2", {
                 else if (!player.c.clickables[13]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[3]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(14)) player[this.layer].bestAchs.push(14) },
         },
@@ -170,7 +170,7 @@ addLayer("a2", {
                 else if (!player.c.clickables[13]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[4]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(15)) player[this.layer].bestAchs.push(15) },
         },
@@ -187,7 +187,7 @@ addLayer("a2", {
                 else if (!player.c.clickables[13]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[5]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(16)) player[this.layer].bestAchs.push(16) },
         },
@@ -203,7 +203,7 @@ addLayer("a2", {
                 else if (!player.c.clickables[13]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[6]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(17)) player[this.layer].bestAchs.push(17) },
         },
@@ -219,7 +219,7 @@ addLayer("a2", {
                 else if (!player.c.clickables[13]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[7]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(18)) player[this.layer].bestAchs.push(18) },
         },
@@ -235,7 +235,7 @@ addLayer("a2", {
                 else if (!player.c.clickables[13]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[8]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(21)) player[this.layer].bestAchs.push(21) },
         },
@@ -251,7 +251,7 @@ addLayer("a2", {
                 else if (!player.c.clickables[13]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[9]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(22)) player[this.layer].bestAchs.push(22) },
         },
@@ -297,7 +297,7 @@ addLayer("a1", {
                 else if (!player.c.clickables[12]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[0]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(11)) player[this.layer].bestAchs.push(11) },
         },
@@ -313,7 +313,7 @@ addLayer("a1", {
                 else if (!player.c.clickables[12]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[1]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(12)) player[this.layer].bestAchs.push(12) },
         },
@@ -329,7 +329,7 @@ addLayer("a1", {
                 else if (!player.c.clickables[12]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[2]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(13)) player[this.layer].bestAchs.push(13) },
         },
@@ -346,7 +346,7 @@ addLayer("a1", {
                 else if (!player.c.clickables[12]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[3]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(14)) player[this.layer].bestAchs.push(14) },
         },
@@ -362,7 +362,7 @@ addLayer("a1", {
                 else if (!player.c.clickables[12]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[4]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(15)) player[this.layer].bestAchs.push(15) },
         },
@@ -378,7 +378,7 @@ addLayer("a1", {
                 else if (!player.c.clickables[12]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[5]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(16)) player[this.layer].bestAchs.push(16) },
         },
@@ -394,7 +394,7 @@ addLayer("a1", {
                 else if (!player.c.clickables[12]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[6]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(17)) player[this.layer].bestAchs.push(17) },
         },
@@ -410,7 +410,7 @@ addLayer("a1", {
                 else if (!player.c.clickables[12]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[7]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(18)) player[this.layer].bestAchs.push(18) },
         },
@@ -426,7 +426,7 @@ addLayer("a1", {
                 else if (!player.c.clickables[12]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[8]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(21)) player[this.layer].bestAchs.push(21) },
         },
@@ -442,7 +442,7 @@ addLayer("a1", {
                 else if (!player.c.clickables[12]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[9]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(22)) player[this.layer].bestAchs.push(22) },
         },
@@ -458,7 +458,7 @@ addLayer("a1", {
                 else if (!player.c.clickables[12]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[10]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(23)) player[this.layer].bestAchs.push(23) },
         },
@@ -474,7 +474,7 @@ addLayer("a1", {
                 else if (!player.c.clickables[12]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[11]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(24)) player[this.layer].bestAchs.push(24) },
         },
@@ -490,7 +490,7 @@ addLayer("a1", {
                 else if (!player.c.clickables[12]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[12]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(25)) player[this.layer].bestAchs.push(25) },
         },
@@ -506,7 +506,7 @@ addLayer("a1", {
                 else if (!player.c.clickables[12]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[13]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             }, 
             onComplete() { if (!player[this.layer].bestAchs.includes(26)) player[this.layer].bestAchs.push(26) },
         },
@@ -522,7 +522,7 @@ addLayer("a1", {
                 else if (!player.c.clickables[12]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[14]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(27)) player[this.layer].bestAchs.push(27) },
         },
@@ -538,7 +538,7 @@ addLayer("a1", {
                 else if (!player.c.clickables[12]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[15]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(28)) player[this.layer].bestAchs.push(28) },
         },
@@ -580,7 +580,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[0]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(11)) player[this.layer].bestAchs.push(11) },
             style() {
@@ -603,7 +603,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[1]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(12)) player[this.layer].bestAchs.push(12) },
             style() {
@@ -626,7 +626,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[2]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(13)) player[this.layer].bestAchs.push(13) },
             style() {
@@ -650,7 +650,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[3]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(14)) player[this.layer].bestAchs.push(14) },
             style() {
@@ -673,7 +673,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[4]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(15)) player[this.layer].bestAchs.push(15) },
             style() {
@@ -696,7 +696,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[5]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(16)) player[this.layer].bestAchs.push(16) },
             style() {
@@ -719,7 +719,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[6]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(17)) player[this.layer].bestAchs.push(17) },
             style() {
@@ -742,7 +742,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[7]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(18)) player[this.layer].bestAchs.push(18) },
             style() {
@@ -765,7 +765,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[8]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(21)) player[this.layer].bestAchs.push(21) },
             style() {
@@ -788,7 +788,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[9]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(22)) player[this.layer].bestAchs.push(22) },
             style() {
@@ -811,7 +811,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[10]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(23)) player[this.layer].bestAchs.push(23) },
             style() {
@@ -834,7 +834,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[11]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(24)) player[this.layer].bestAchs.push(24) },
             style() {
@@ -857,7 +857,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[12]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(25)) player[this.layer].bestAchs.push(25) },
             style() {
@@ -880,7 +880,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[13]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(26)) player[this.layer].bestAchs.push(26) },
             style() {
@@ -898,12 +898,12 @@ addLayer("a", {
                 let n = tmp.c.challenges[12].effect;
                 let n2 = tmp.p.buyables[21].effect;
                 if (player.b.totalBuyables[21].gte(69) && player.b.totalBuyables[22].gte(69) && player.b.totalBuyables[23].gte(69) && hasAchievement("a", 26)) return true;
-                else if (D(player[this.layer].bestAchs[14]).lt(player[this.layer].bestAchs[n2])) return true;
                 else if (!player[this.layer].bestAchs.includes(27)) return false;
+                else if (D(player[this.layer].bestAchs[14]).lt(player[this.layer].bestAchs[n2])) return true;
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[14]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(27)) player[this.layer].bestAchs.push(27) },
             style() {
@@ -926,7 +926,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[15]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(28)) player[this.layer].bestAchs.push(28) },
         },
@@ -942,7 +942,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[16]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(31)) player[this.layer].bestAchs.push(31) },
         },
@@ -958,7 +958,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[17]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(32)) player[this.layer].bestAchs.push(32) },
         },
@@ -974,7 +974,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[18]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(33)) player[this.layer].bestAchs.push(33) },
         },
@@ -990,7 +990,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[19]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(34)) player[this.layer].bestAchs.push(34) },
         },
@@ -1006,7 +1006,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[20]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(35)) player[this.layer].bestAchs.push(35) },
         },
@@ -1022,7 +1022,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[21]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(36)) player[this.layer].bestAchs.push(36) },
         },
@@ -1038,7 +1038,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[22]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(37)) player[this.layer].bestAchs.push(37) },
         },
@@ -1054,7 +1054,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[23]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(38)) player[this.layer].bestAchs.push(38) },
         },
@@ -1070,7 +1070,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[24]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(41)) player[this.layer].bestAchs.push(41) },
         },
@@ -1086,7 +1086,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[25]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(42)) player[this.layer].bestAchs.push(42) },
         },
@@ -1102,7 +1102,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[26]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(43)) player[this.layer].bestAchs.push(43) },
         },
@@ -1118,7 +1118,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[27]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(44)) player[this.layer].bestAchs.push(44) },
         },
@@ -1134,7 +1134,7 @@ addLayer("a", {
                 else if (!player.c.clickables[11]) return false;
                 else if (n == 0) return false;
                 else if (D(player[this.layer].bestAchs[28]).gte(player[this.layer].bestAchs[player[this.layer].bestAchs.length - n])) return true;
-                else false;
+                else return false;
             },
             onComplete() { if (!player[this.layer].bestAchs.includes(45)) player[this.layer].bestAchs.push(45) },
         }

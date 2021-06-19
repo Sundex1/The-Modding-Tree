@@ -756,12 +756,12 @@ addLayer("c3", {
         let amt = D(1).times(tmp.p.buyables[33].effect).add(D(player[this.layer].resetTime));
         let c3e = player[this.layer].points.plus(1);
         if (tmp.p.buyables[41].effect.gte(1)) c3e = Math.max(c3e.sub(player[this.layer].buyables[11].plus(player[this.layer].buyables[12]).plus(player[this.layer].buyables[13]).plus(player[this.layer].buyables[21]).plus(player[this.layer].buyables[22]).plus(player[this.layer].buyables[23])), 1);
-        if (hasAchievement("a", 32)) amt = amt.times(Math.min(tmp.c.challenges[12].effect2, player.c3.points)).pow((hasAchievement("a2", 26)) ? Math.min(tmp.c.challenges[12].effect2, player.p.points) : 1);
+        if (hasAchievement("a", 32)) amt = amt.times(Math.min(tmp.c.challenges[12].effect2, player.c3.points)).pow((hasAchievement("a2", 16)) ? Math.min(tmp.c.challenges[12].effect2, player.p.points) : 1);
         amt = amt.times(tmp[this.layer].buyables[11].effect).pow(tmp[this.layer].buyables[12].effect);
         return D.min(amt.pow(D(-1).times(player[this.layer].position).div(Math.max(D.pow(c3e, c3e)))), 1);
     },
     update(diff) {
-        if (inChallenge("c", 13)) player[this.layer].position = layers[this.layer].positionAmount();
+        if (inChallenge("c", 13)) player[this.layer].position = D.min(layers[this.layer].positionAmount(), player[this.layer].position);
     },
     exponent: 1, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
@@ -784,6 +784,9 @@ addLayer("c3", {
     },
     canReset() {
         return (player[this.layer].position.lte(tmp[this.layer].getNextAt));
+    },
+    onPrestige() {
+        player[this.layer].position = D(1)
     },
     tabFormat: [
         "main-display",
