@@ -40,7 +40,11 @@ addLayer("p", {
         if (hasAchievement("a", 28)) b -= 1;
         return b;
     },
-    totalBaseAndChallengePoints() { return player.b.points.plus(player.c1.points).plus(player.c2.points) },
+    totalBaseAndChallengePoints() {
+        if (hasAchievement("a3", 15))
+            return player.b.points.plus(player.c1.points).plus(player.c2.points).times(player.c3.points)
+        else return player.b.points.plus(player.c1.points).plus(player.c2.points).plus(player.c3.points)
+    },
     prestigeButtonText() {
         return formatWhole(tmp[this.layer].totalBaseAndChallengePoints)+" / " + formatWhole(tmp[this.layer].getNextAt) + "<br> Total Base & Challenge Points";
     },
@@ -103,7 +107,11 @@ addLayer("p", {
                 if (hasAchievement("a3", 12)) cost = cost.sub(tmp.c.challenges[13].effect2);
                 return cost;
             },
-            effect(x) { return x; },
+            effect(x) {
+                let eff = x;
+                hasAchievement("a", 47) ? eff = eff.times(D(1).plus(D(1).times(player.p.buyables[32]))) : null;
+                return eff;
+            },
             canAfford() { return player.p.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) },
             buy() {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(1);
@@ -222,7 +230,9 @@ addLayer("p", {
                 return cost;
             },
             effect(x) {
-                return D(1).plus(D(0.1).times(x));
+                let eff = D(1).plus(D(0.1).times(x));
+                hasAchievement("a", 46) ? eff = eff.times(D(1).plus(D(0.01).times(player.p.buyables[12]))) : null;
+                return eff;
             },
             canAfford() { return player.p.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) },
             buy() {

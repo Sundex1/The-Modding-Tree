@@ -79,7 +79,13 @@ addLayer("c", {
                 }
                 return display;
             },
-            effect() { return player.c2.points.plus(1).log10().ceil() },
+            effect() {
+                if (player.c2.best.gte(1)) {
+                    let eff1 = player.c2.points.plus(1).log10().ceil();
+                    hasAchievement("a2", 23) ? eff1 = eff1.plus(player.c1.points.plus(1).log10().ceil()) : null;
+                    return eff1;
+                }
+            },
             effect2() { if (hasAchievement("a", 32)) return player.c2.points.max(1); else 1 },
         },
         13: {
@@ -105,8 +111,14 @@ addLayer("c", {
                     }
                 return display;
             },
-            effect() { return player.c3.points.plus(1).plus(hasAchievement("a",42)?player.p.points:0) },
-            effect2() { if (hasAchievement("a3", 12)) return player.c3.points.max(0); else 0 },
+            effect() { return Math.pow(player.c3.points.plus(1).plus(hasAchievement("a",42)?player.p.points:0),(hasAchievement("a3", 16)?2:1)) },
+            effect2() {
+                if (hasAchievement("a3", 12)) {
+                    let eff2 = player.c3.points.max(0);
+                    if (hasAchievement("a3", 16)) eff2 = Math.pow(eff2, 2);
+                    return eff2;
+                };
+            }
         },
     },
     toggleAmount() { return hasAchievement("a2", 17) ? 3 : (hasAchievement("a2", 15) ? 2 : 1) },
@@ -690,6 +702,10 @@ addLayer("c2", {
             canAfford() { return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) },
             buy() {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(Math.max(tmp.c.challenges[13].effect, 1));
+                if (hasAchievement("a", 45)) {
+                    player[this.layer].buyables[this.id.plus(1)] = player[this.layer].buyables[this.id.plus(1)].plus(Math.max(tmp.c.challenges[13].effect, 1));
+                    player[this.layer].buyables[this.id.plus(2)] = player[this.layer].buyables[this.id.plus(2)].plus(Math.max(tmp.c.challenges[13].effect, 1));
+                }
             },
         },
         32: {
@@ -799,7 +815,7 @@ addLayer("c3", {
             resetBuyables(this.layer);
             player[this.layer].points = D(0)
         },
-        showRespec() { return hasAchievement("a", 11) },
+        showRespec() { return hasAchievement("a", 11) && !hasAchievement("a3", 16)},
         respecText: "Respec Challenge",
         rows: 2,
         cols: 3,

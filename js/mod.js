@@ -45,9 +45,15 @@ let changelog = `<h1>Changelog:</h1><br><br>
 		-1 New Buyables<br>
 		-Yes, I know that Direct Miss position spasms. This is intentional.<br>
 		-Yes, I know I should probably release this when all the content is made, but I'm tired.<br>
-		-Yes, there are probably bugs, so lemme know so they can be squashed. :)<br>`
+		-Yes, there are probably bugs, so lemme know so they can be squashed. :)<br>
+	<h3>v0.6</h3><br>
+		-new Achs<br>
+		-new buyables<br>
+		-new features<br>
+		-probably unbalanced, but I don't really care because Challenge 5 will revoke all of that.<br>
+		-some bug fixes, but probably new bugs exist so lemme know. :)`
 
-let winText = `Congratulations! We hope you enjoyed this insanity. Consider giving feedback for the next update because we still have a long ways to go!`
+let winText = `Congratulations! We hope you enjoyed this insanity. I have the last 4 updates planned out, so all I need is time. We are nearing the end! We are nearing 0! :D`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)

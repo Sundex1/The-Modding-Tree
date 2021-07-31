@@ -6,7 +6,7 @@ addLayer("b", {
         return {
             unlocked: true,
             points: new Decimal(0),
-            toggles: { 11: true, 12: true, 13: true, 21: true, 22: true, 23: true, 31: true, 32: true, 33: true },
+            toggles: { 11: true, 12: true, 13: true, 21: true, 22: true, 23: true, 31: true, 32: true, 33: true, 41: true },
             totalBuyables: { 11: D(0), 12: D(0), 13: D(0), 21: D(0), 22: D(0), 23: D(0), 31: D(0), 32: D(0), 33: D(0) },
         }
     },
@@ -64,12 +64,13 @@ addLayer("b", {
         ["row", [["column", [["buyable", 11], ["clickable", 11]]], ["column", [["buyable", 12], ["clickable", 12]]], ["column", [["buyable", 13], ["clickable", 13]]]]],
         ["row", [["column", [["buyable", 21], ["clickable", 21]]], ["column", [["buyable", 22], ["clickable", 22]]], ["column", [["buyable", 23], ["clickable", 23]]]]],
         ["row", [["column", [["buyable", 31], ["clickable", 31]]], ["column", [["buyable", 32], ["clickable", 32]]], ["column", [["buyable", 33], ["clickable", 33]]]]],
+        ["row", ["column", ["clickable", 41]]],
     ],
     buyables: {
         respec() {
             resetBuyables(this.layer);
             player.b.totalBuyables = { 11: D(0), 12: D(0), 13: D(0), 21: D(0), 22: D(0), 23: D(0), 31: D(0), 32: D(0), 33: D(0)};
-            player.b.toggles = {11: true, 12: true, 13: true, 21: true, 22: true, 23: true, 31: true, 32: true, 33: true};
+            player.b.toggles = {11: true, 12: true, 13: true, 21: true, 22: true, 23: true, 31: true, 32: true, 33: true, 41: true};
         },
         showRespec() { return hasAchievement("a", 11) },    
         respecText: "Respec buyables",
@@ -89,7 +90,7 @@ addLayer("b", {
                 return cost;
             }, 
             effect(x) { return x.plus(tmp.b.buyables[this.id].extraLevels).times(tmp.b.buyables[13] ? tmp.b.buyables[13].effect : 1).div(250).plus(1).times(tmp.b.buyables[31] ? tmp.b.buyables[31].effect2 : 1)}, 
-            canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] && (!hasAchievement("a", 22)||!player.b.toggles[31])},
+            canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] && (!hasAchievement("a", 22)||!player.b.toggles[31]||!player.b.toggles[41])},
             buy() {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(Math.max(tmp.c.challenges[13].effect,1));
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
@@ -115,7 +116,7 @@ addLayer("b", {
                 return cost;
             }, 
             effect(x) { return D.pow(x.plus(tmp.b.buyables[this.id].extraLevels).plus(1).log(10).div(2).plus(1), tmp.b.buyables[33].effect)},
-            canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] && (!hasAchievement("a", 22)||!player.b.toggles[31])},
+            canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] && (!hasAchievement("a", 22) || !player.b.toggles[31] || !player.b.toggles[41])},
             buy() {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(Math.max(tmp.c.challenges[13].effect, 1));
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
@@ -141,7 +142,7 @@ addLayer("b", {
                 return cost;
             }, 
             effect(x) { return x.plus(tmp.b.buyables[this.id].extraLevels).plus(1).log10().div(4).plus(1).times(tmp.b.buyables[31] ? tmp.b.buyables[31].effect2 : 1)},
-            canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] && (!hasAchievement("a", 22)||!player.b.toggles[31])},
+            canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] && (!hasAchievement("a", 22) || !player.b.toggles[31] || !player.b.toggles[41])},
             buy() {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(Math.max(tmp.c.challenges[13].effect, 1));
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
@@ -284,9 +285,15 @@ addLayer("b", {
                 if (hasAchievement("a", 22)) power = power.times(player[this.layer].buyables[21].plus(player[this.layer].buyables[22]).plus(player[this.layer].buyables[23]).max(1).log(100).plus(1));
                 return x.plus(1).plus(tmp[this.layer].buyables[this.id].extraLevels).log2().times(power).plus(1);
             },
-            canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id]},
+            canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] && player.b.toggles[41]},
             buy() {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(Math.max(tmp.c.challenges[13].effect, 1));
+                if (hasAchievement("a", 45)) {
+                    player[this.layer].buyables[32] = player[this.layer].buyables[this.id];
+                    player.b.totalBuyables[32] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
+                    player[this.layer].buyables[33] = player[this.layer].buyables[this.id];
+                    player.b.totalBuyables[33] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
+                }
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
             },
             extraLevels() {
@@ -310,10 +317,16 @@ addLayer("b", {
             effect(x = player[this.layer].buyables[this.id]) {
                 return player.points.log10().times(-1).plus(1).pow(x.plus(tmp[this.layer].buyables[this.id].extraLevels).div(3)).times((hasAchievement("a1", 24)) ? player.b.points.plus(player.c1.points).plus(player.c2.points).plus(1).log10().plus(1) : 1)
             },
-            canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] },
+            canAfford() { return player.b.points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] && player.b.toggles[41] },
             buy() {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(Math.max(tmp.c.challenges[13].effect, 1));
-                player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
+                if (hasAchievement("a", 45)) {
+                    player[this.layer].buyables[31] = player[this.layer].buyables[this.id];
+                    player.b.totalBuyables[31] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
+                    player[this.layer].buyables[33] = player[this.layer].buyables[this.id];
+                    player.b.totalBuyables[33] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
+                }
+            player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
             },
             extraLevels() {
                 let e = D(0);
@@ -336,16 +349,22 @@ addLayer("b", {
             effect(x = player[this.layer].buyables[this.id]) {
                 return D(1).plus(player.points.log10().times(-1).plus(1).log10().plus(1).times(x).root(3))
             },
-            canAfford() { return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] },
+            canAfford() { return player[this.layer].points.gte(layers[this.layer].buyables[this.id].cost(player[this.layer].buyables[this.id])) && player.b.toggles[this.id] && player.b.toggles[41] },
             buy() {
                 player[this.layer].buyables[this.id] = player[this.layer].buyables[this.id].plus(Math.max(tmp.c.challenges[13].effect, 1));
+                if (hasAchievement("a", 45)) {
+                    player[this.layer].buyables[31] = player[this.layer].buyables[this.id];
+                    player.b.totalBuyables[31] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
+                    player[this.layer].buyables[32] = player[this.layer].buyables[this.id];
+                    player.b.totalBuyables[32] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
+                }
                 player.b.totalBuyables[this.id] = player.b.totalBuyables[this.id].max(player[this.layer].buyables[this.id]);
             },
         },
     },
     toggleAmount() { return (hasAchievement("a2", 22) ? D(4).plus(D(3).sub(Object.keys(player.c.clickables).filter(x => player.c.clickables[x] || x == [11, 12, 13]).length)) : (hasAchievement("a", 41)?4:(hasAchievement("a", 25)?3:(hasAchievement("a", 18)?2:1)))) },
     clickables: { 
-        rows: 3,
+        rows: 4,
         cols: 3,
         11: {
             display() { return "Toggles Anti-Velocity but changes costs of other buyables <br><br>"+(player.b.toggles[11]?"ON":"OFF") },
@@ -433,12 +452,11 @@ addLayer("b", {
         }, 
         31: {
             display() { return "Toggles Direct Attack <br> but changes costs of other buyables<br><br>"+(player.b.toggles[31]?"ON":"OFF") },
-            unlocked() { return hasAchievement("a", 17) && hasAchievement("a", 14) },
+            unlocked() { return hasAchievement("a", 17) && hasAchievement("a", 14) && !hasAchievement("a", 45) },
             canClick() { return hasAchievement("a", 17) && Object.keys(player.b.toggles).filter(x => !player.b.toggles[x] || x==31).length<=tmp.b.toggleAmount},
             onClick() {
-                player.b.toggles[31] = !player.b.toggles[31]
-                if (player.b.toggles[31]) player.b.buyables[31] = player.b.totalBuyables[31]
-                else player.b.buyables[31] = D(0)
+                player.b.toggles[31] = !player.b.toggles[31];
+                player.b.toggles[31] ? player.b.buyables[31] = player.b.totalBuyables[31] : player.b.buyables[31] = D(0);
             },
             style() {
                 if (player.b.toggles[31]) return { "height": "50px", "width": "150px", "background-color": "#4BDC13" };
@@ -447,32 +465,52 @@ addLayer("b", {
         }, 
         32: {
             display() { return "Toggles Shrink Factor <br> but changes costs of other buyables<br><br>"+(player.b.toggles[32]?"ON":"OFF") },
-            unlocked() { return hasAchievement("a1", 13) && hasAchievement("a", 14) },
+            unlocked() { return hasAchievement("a1", 13) && hasAchievement("a", 14) && !hasAchievement("a", 45) },
             canClick() { return hasAchievement("a1", 13) && Object.keys(player.b.toggles).filter(x => !player.b.toggles[x] || x==32).length<=tmp.b.toggleAmount},
             onClick() {
-                player.b.toggles[32] = !player.b.toggles[32]
-                if (player.b.toggles[32]) player.b.buyables[32] = player.b.totalBuyables[32]
-                else player.b.buyables[32] = D(0)
+                player.b.toggles[32] = !player.b.toggles[32];
+                player.b.toggles[32] ? player.b.buyables[32] = player.b.totalBuyables[32] : player.b.buyables[32] = D(0);
             },
             style() {
-                if (player.b.toggles[32]) return { "height": "50px", "width": "150px", "background-color": "#4BDC13" };
-                if (!player.b.toggles[32]) return { "height": "50px", "width": "150px", "background-color": "green" };
+                if (player.b.toggles[31]) return { "height": "50px", "width": "150px", "background-color": "#4BDC13" };
+                if (!player.b.toggles[31]) return { "height": "50px", "width": "150px", "background-color": "green" };
             },
         }, 
         33: {
             display() { return "Toggles Power Play <br> but changes costs of other buyables<br><br>" + (player.b.toggles[33] ? "ON" : "OFF") },
-            unlocked() { return hasAchievement("a2", 12) && hasAchievement("a", 14) },
+            unlocked() { return hasAchievement("a2", 12) && hasAchievement("a", 14) && !hasAchievement("a", 45) },
             canClick() { return hasAchievement("a2", 12) && Object.keys(player.b.toggles).filter(x => !player.b.toggles[x] || x == 33).length <= tmp.b.toggleAmount },
             onClick() {
-                player.b.toggles[33] = !player.b.toggles[33]
-                if (player.b.toggles[33]) player.b.buyables[33] = player.b.totalBuyables[33]
-                else player.b.buyables[33] = D(0)
+                player.b.toggles[33] = !player.b.toggles[33];
+                player.b.toggles[33] ? player.b.buyables[33] = player.b.totalBuyables[33] : player.b.buyables[33] = D(0);
             },
             style() {
                 if (player.b.toggles[33]) return { "height": "50px", "width": "150px", "background-color": "#4BDC13" };
                 if (!player.b.toggles[33]) return { "height": "50px", "width": "150px", "background-color": "green" };
             },
-        }, 
+        },
+        41: {
+            display() { return "Toggles All row 3 buyables <br> but changes costs of other buyables<br><br>" + (player.b.toggles[41] ? "ON" : "OFF") },
+            unlocked() { return hasAchievement("a", 45) && hasAchievement("a", 14) },
+            canClick() { return hasAchievement("a", 45) && Object.keys(player.b.toggles).filter(x => !player.b.toggles[x] || x == 41).length <= tmp.b.toggleAmount },
+            onClick() {
+                player.b.toggles[41] = !player.b.toggles[41];
+                if (player.b.toggles[41]) {
+                    player.b.buyables[33] = player.b.totalBuyables[33];
+                    player.b.buyables[32] = player.b.totalBuyables[32];
+                    player.b.buyables[31] = player.b.totalBuyables[31];
+                }
+                else {
+                    player.b.buyables[33] = D(0);
+                    player.b.buyables[32] = D(0);
+                    player.b.buyables[31] = D(0);
+                }
+            },
+            style() {
+                if (player.b.toggles[41]) return { "height": "50px", "width": "500px", "background-color": "#4BDC13" };
+                if (!player.b.toggles[41]) return { "height": "50px", "width": "500px", "background-color": "green" };
+            },
+        },
     },
 })
 

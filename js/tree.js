@@ -21,7 +21,7 @@ addNode("blank", {
 addLayer("tree-tab", {
     tabFormat: {
         "Main": {
-            embedLayer() { return player.c.activeChallenge?("c"+(player.c.activeChallenge-10)):"b"},
+            embedLayer() { return player.c.activeChallenge ? ("c"+(player.c.activeChallenge-10)):"b"},
         },
         "Prestige": {
             embedLayer: "p",
